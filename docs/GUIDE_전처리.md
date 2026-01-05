@@ -117,6 +117,72 @@ labels = [
 
 ---
 
+## STEP 4: DB 입력
+
+전처리된 데이터는 **2개의 DB**에 분리 저장됩니다.
+
+### DB 구분
+
+| DB | 용도 | 저장 데이터 |
+|----|------|------------|
+| **SQLite** (관계형) | 구조화된 데이터 관리 | 메타데이터, 사용자 정보, 채팅 기록 |
+| **ChromaDB** (벡터) | 유사도 검색 (RAG) | 발화 내용의 임베딩 벡터 |
+
+### SQLite 저장 대상
+
+```
+counseling_data       ← 상담 세션 메타데이터
+counseling_paragraphs ← 발화 단위 텍스트 + 라벨
+users, chat_sessions, chat_messages ← 사용자/채팅 데이터
+```
+
+### ChromaDB 저장 대상
+
+```
+psych_counseling_vectors ← 발화 content의 임베딩 벡터
+```
+
+> **핵심**: `counseling_paragraphs.content`가 임베딩되어 ChromaDB에 저장됨
+
+### 저장 코드 예시
+
+```python
+from src.database.db_manager import DatabaseManager
+
+db = DatabaseManager()
+
+# 1. SQLite에 상담 데이터 저장
+counseling = db.add_counseling_data(
+    source_id="D012",
+    category="DEPRESSION",
+    severity=2,
+    summary="주요 증상: ..."
+)
+
+# 2. 단락 저장 → SQLite + ChromaDB 동시 저장
+db.add_counseling_paragraph(
+    counseling_id=counseling.id,
+    paragraph_index=0,
+    speaker="내담자",
+    content="요즘 너무 우울해요...",  # → ChromaDB에 임베딩
+    labels={"depressive_mood": 1}
+)
+```
+
+### 데이터 흐름 요약
+
+```
+전처리 결과
+    │
+    ├─→ counseling_data      → SQLite
+    │
+    └─→ counseling_paragraphs
+            ├─→ 텍스트/라벨   → SQLite
+            └─→ content 임베딩 → ChromaDB
+```
+
+---
+
 ## 파일 경로
 
 | 구분 | 경로 패턴 |
