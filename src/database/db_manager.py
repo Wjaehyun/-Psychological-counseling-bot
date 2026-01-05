@@ -1,0 +1,324 @@
+"""
+FileName    : db_manager.py
+Auth        : 박수빈
+Date        : 2026-01-03
+Description : 데이터베이스 관리자 클래스 - 초기화, 마이그레이션, CRUD 유틸리티
+Issue/Note  : SQLite와 ChromaDB를 통합 관리
+"""
+
+# -------------------------------------------------------------
+# Imports
+# -------------------------------------------------------------
+
+from typing import Optional, List, Dict, Any
+from sqlalchemy.orm import Session
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from config.db_config import DatabaseConfig
+from src.database.database_schema import (
+    init_database, get_session, 
+    User, ChatSession, ChatMessage, 
+    CounselingData, CounselingParagraph, ExpertReferral
+)
+from src.database.vector_store import VectorStore
+
+# -------------------------------------------------------------
+# Database Manager Class
+# -------------------------------------------------------------
+
+class DatabaseManager:
+    """
+    통합 데이터베이스 관리자
+    
+    SQLite (관계형 DB)와 ChromaDB (벡터 DB)를 함께 관리
+    """
+    
+    def __init__(self, echo: bool = False):
+        """
+        DatabaseManager 초기화
+        
+        Args:
+            echo: SQL 쿼리 로그 출력 여부
+        """
+        # SQLite 초기화
+        self.engine = init_database(echo=echo)
+        self._session: Optional[Session] = None
+        
+        # ChromaDB 초기화
+        self.vector_store = VectorStore()
+    
+    # -------------------------------------------------------------
+    # Session Management
+    # -------------------------------------------------------------
+    
+    @property
+    def session(self) -> Session:
+        """
+        현재 세션 반환 (없으면 생성)
+        """
+        if self._session is None:
+            self._session = get_session(self.engine)
+        return self._session
+    
+    def close(self) -> None:
+        """
+        세션 종료
+        """
+        if self._session:
+            self._session.close()
+            self._session = None
+    
+    def commit(self) -> None:
+        """
+        변경사항 커밋
+        """
+        self.session.commit()
+    
+    def rollback(self) -> None:
+        """
+        변경사항 롤백
+        """
+        self.session.rollback()
+    
+    # -------------------------------------------------------------
+    # User CRUD
+    # -------------------------------------------------------------
+    
+    def create_user(self, username: str, password_hash: Optional[str] = None) -> User:
+        """
+        사용자 생성
+        """
+        user = User(username=username, password_hash=password_hash)
+        self.session.add(user)
+        self.commit()
+        return user
+    
+    def get_user(self, user_id: int) -> Optional[User]:
+        """
+        ID로 사용자 조회
+        """
+        return self.session.query(User).filter(User.id == user_id).first()
+    
+    def get_user_by_username(self, username: str) -> Optional[User]:
+        """
+        사용자명으로 사용자 조회
+        """
+        return self.session.query(User).filter(User.username == username).first()
+    
+    # -------------------------------------------------------------
+    # Chat Session CRUD
+    # -------------------------------------------------------------
+    
+    def create_chat_session(self, user_id: int) -> ChatSession:
+        """
+        새 채팅 세션 생성
+        """
+        session = ChatSession(user_id=user_id)
+        self.session.add(session)
+        self.commit()
+        return session
+    
+    def get_chat_session(self, session_id: int) -> Optional[ChatSession]:
+        """
+        채팅 세션 조회
+        """
+        return self.session.query(ChatSession).filter(ChatSession.id == session_id).first()
+    
+    def add_chat_message(self, session_id: int, role: str, content: str) -> ChatMessage:
+        """
+        채팅 메시지 추가
+        """
+        message = ChatMessage(session_id=session_id, role=role, content=content)
+        self.session.add(message)
+        self.commit()
+        return message
+    
+    def get_chat_history(self, session_id: int) -> List[ChatMessage]:
+        """
+        세션의 채팅 히스토리 조회
+        """
+        return self.session.query(ChatMessage).filter(
+            ChatMessage.session_id == session_id
+        ).order_by(ChatMessage.created_at).all()
+    
+    # -------------------------------------------------------------
+    # Counseling Data CRUD
+    # -------------------------------------------------------------
+    
+    def add_counseling_data(
+        self,
+        source_id: str,
+        category: str,
+        summary: Optional[str] = None,
+        severity: Optional[int] = None,
+        source_file: Optional[str] = None,
+        has_detailed_label: bool = True,
+        raw_metadata: Optional[Dict] = None
+    ) -> CounselingData:
+        """
+        상담 데이터 추가
+        """
+        data = CounselingData(
+            source_id=source_id,
+            category=category,
+            summary=summary,
+            severity=severity,
+            source_file=source_file,
+            data_format="labeled" if has_detailed_label else "unlabeled",
+            has_detailed_label=has_detailed_label,
+            raw_metadata=raw_metadata
+        )
+        self.session.add(data)
+        self.commit()
+        return data
+    
+    def add_counseling_paragraph(
+        self,
+        counseling_id: int,
+        paragraph_index: int,
+        speaker: str,
+        content: str,
+        labels: Optional[Dict] = None,
+        add_to_vector_store: bool = True,
+        category: str = "UNKNOWN",
+        severity: int = 0
+    ) -> CounselingParagraph:
+        """
+        상담 단락 추가 (SQLite + ChromaDB)
+        """
+        # SQLite에 저장
+        paragraph = CounselingParagraph(
+            counseling_id=counseling_id,
+            paragraph_index=paragraph_index,
+            speaker=speaker,
+            content=content,
+            labels=labels
+        )
+        
+        # ChromaDB에 추가
+        if add_to_vector_store:
+            metadata = {
+                "counseling_id": counseling_id,
+                "paragraph_index": paragraph_index,
+                "speaker": speaker,
+                "category": category,
+                "severity": severity,
+                "has_labels": labels is not None
+            }
+            
+            # 주요 라벨 추가 (검색 필터용)
+            if labels:
+                for key in ["depressive_mood", "suicidal", "anxiety", "fatigue"]:
+                    if key in labels:
+                        metadata[key] = labels[key]
+            
+            ids = self.vector_store.add_documents(
+                documents=[content],
+                metadatas=[metadata]
+            )
+            paragraph.vector_id = ids[0] if ids else None
+        
+        self.session.add(paragraph)
+        self.commit()
+        return paragraph
+    
+    def get_counseling_data(self, source_id: str) -> Optional[CounselingData]:
+        """
+        source_id로 상담 데이터 조회
+        """
+        return self.session.query(CounselingData).filter(
+            CounselingData.source_id == source_id
+        ).first()
+    
+    def search_similar_counseling(
+        self,
+        query: str,
+        n_results: int = 5,
+        category: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        유사 상담 사례 검색 (벡터 검색)
+        """
+        if category:
+            return self.vector_store.search_by_category(query, category, n_results)
+        return self.vector_store.search(query, n_results)
+    
+    # -------------------------------------------------------------
+    # Expert Referral
+    # -------------------------------------------------------------
+    
+    def create_expert_referral(
+        self,
+        session_id: int,
+        severity_level: str,
+        recommended_action: Optional[str] = None
+    ) -> ExpertReferral:
+        """
+        전문가 연결 기록 생성
+        """
+        referral = ExpertReferral(
+            session_id=session_id,
+            severity_level=severity_level,
+            recommended_action=recommended_action
+        )
+        self.session.add(referral)
+        
+        # 세션 상태 업데이트
+        chat_session = self.get_chat_session(session_id)
+        if chat_session:
+            chat_session.status = "referred"
+        
+        self.commit()
+        return referral
+    
+    # -------------------------------------------------------------
+    # Statistics
+    # -------------------------------------------------------------
+    
+    def get_statistics(self) -> Dict[str, int]:
+        """
+        데이터베이스 통계 정보
+        """
+        return {
+            "users": self.session.query(User).count(),
+            "chat_sessions": self.session.query(ChatSession).count(),
+            "chat_messages": self.session.query(ChatMessage).count(),
+            "counseling_data": self.session.query(CounselingData).count(),
+            "counseling_paragraphs": self.session.query(CounselingParagraph).count(),
+            "expert_referrals": self.session.query(ExpertReferral).count(),
+            "vector_documents": self.vector_store.get_document_count()
+        }
+
+
+# -------------------------------------------------------------
+# Entry Point (테스트용)
+# -------------------------------------------------------------
+
+if __name__ == "__main__":
+    print("DatabaseManager 테스트...")
+    
+    db = DatabaseManager(echo=False)
+    
+    # 사용자 생성 테스트
+    user = db.create_user("test_user_001")
+    print(f"사용자 생성: {user}")
+    
+    # 채팅 세션 생성 테스트
+    session = db.create_chat_session(user.id)
+    print(f"세션 생성: {session}")
+    
+    # 메시지 추가 테스트
+    db.add_chat_message(session.id, "user", "안녕하세요, 요즘 우울한 기분이 들어요.")
+    db.add_chat_message(session.id, "assistant", "안녕하세요. 우울한 기분이 드신다니 힘드셨겠네요.")
+    
+    # 통계 출력
+    stats = db.get_statistics()
+    print(f"\n데이터베이스 통계:")
+    for key, value in stats.items():
+        print(f"  - {key}: {value}")
+    
+    db.close()
+    print("\n테스트 완료!")
