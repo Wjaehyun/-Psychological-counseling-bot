@@ -68,31 +68,6 @@ class DatabaseConfig:
         for directory in directories:
             directory.mkdir(parents=True, exist_ok=True)
 
-
-# -------------------------------------------------------------
-# OpenAI Configuration
-# -------------------------------------------------------------
-
-class OpenAIConfig:
-    """
-    OpenAI API 설정
-    """
-    
-    API_KEY = os.getenv("OPENAI_API_KEY", "")
-    EMBEDDING_MODEL = "text-embedding-3-small"
-    CHAT_MODEL = "gpt-4o-mini"
-    
-    @classmethod
-    def validate(cls) -> bool:
-        """
-        API 키가 설정되어 있는지 확인
-        """
-        if not cls.API_KEY:
-            print("WARNING: OPENAI_API_KEY가 설정되지 않았습니다.")
-            return False
-        return True
-
-
 # -------------------------------------------------------------
 # Entry Point (테스트용)
 # -------------------------------------------------------------
@@ -102,4 +77,3 @@ if __name__ == "__main__":
     DatabaseConfig.ensure_directories()
     print(f"SQLite DB Path: {DatabaseConfig.SQLITE_DB_PATH}")
     print(f"ChromaDB Dir: {DatabaseConfig.CHROMA_DB_DIR}")
-    print(f"OpenAI API Key Set: {OpenAIConfig.validate()}")
