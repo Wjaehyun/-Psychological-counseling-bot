@@ -17,10 +17,13 @@ from dotenv import load_dotenv
 import os
 
 # -------------------------------------------------------------
-# Environment & Constants
+# env call func
 # -------------------------------------------------------------
 
 def _load_model_name() -> str:
+    """
+    env로부터 모델이름을 받아오는 함수.
+    """
     env_path= env_path = Path(__file__).resolve().parents[2] / "config" / ".env"
     load_dotenv(dotenv_path=env_path)
 
@@ -39,7 +42,7 @@ def _load_model_name() -> str:
 
 def create_model() -> ChatOpenAI:
     """
-    정의된 상수 model_name으로 모델 생성.
+    load_model_name()에서 모델이름을 가져와 ChatOpenAI 모델을 실질적으로 생성
     """
     model_name = _load_model_name()
     # print(f"모델이름: {model_name}")
