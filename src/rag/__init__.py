@@ -8,8 +8,8 @@ Issue/Note  : 외부 패키지(tests, app 등)에서 접근하기 쉬운 인터�
 
 from .chain import RAGChain
 from .retriever import create_retriever, load_vector_db
-from .rewrite import create_rewrite_chain, rewrite_query
-from .answer import create_answer_chain, generate_answer
+from .rewrite import create_rewrite_chain, rewrite_query, format_history
+from .answer import create_answer_chain, generate_answer, format_sources
 
 __all__ = [
     "RAGChain",
@@ -17,6 +17,8 @@ __all__ = [
     "load_vector_db",
     "create_rewrite_chain",
     "rewrite_query",
+    "format_history",
     "create_answer_chain",
     "generate_answer",
+    "format_sources",
 ]

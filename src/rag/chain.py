@@ -67,10 +67,19 @@ class RAGChain:
             }).strip().strip('"\'').splitlines()[0]
         )
         
-        # 2. 문서 검색 (Retrieve)
-        # Input: {..., rewritten_query} -> Output: context (문서 내용)
+        # 2. 문서 검색 (Retrieve) & Context 포맷팅
+        # Input: {..., rewritten_query} -> Output: source_docs (List), context (Str)
+        def retrieve_and_format(x):
+            docs = retriever_func(query=x["rewritten_query"])
+            return {"source_docs": docs, "context": format_sources(docs)}
+
         retrieve_step = RunnablePassthrough.assign(
-            context=lambda x: format_sources(retriever_func(query=x["rewritten_query"]))
+            **{
+                "data": lambda x: retrieve_and_format(x)
+            }
+        ) | RunnablePassthrough.assign(
+            source_docs=lambda x: x["data"]["source_docs"],
+            context=lambda x: x["data"]["context"]
         )
         
         # 3. 답변 생성 (Answer)
@@ -90,30 +99,29 @@ class RAGChain:
         """
         사용자 발화에 대한 RAG 응답 생성 및 처리 전체 과정
         """
+        # (기존 로직 유지하되 run_with_debug 호출로 대체 가능하나, 안전하게 기존 구조 유지)
         print(f"\n[Flow Start] User: {user_id}, Session: {session_id}")
         
-        # 1. 사용자 메시지 저장 (부수 효과)
+        # 1. 사용자 메시지 저장
         self.db.add_chat_message(session_id, "user", query)
         
         # 2. 대화 히스토리 로드
         history_objs = self.db.get_chat_history(session_id)
         history_dicts = [{"role": msg.role, "content": msg.content} for msg in history_objs]
-        pre_history = history_dicts[:-1] # 방금 추가한 메시지 제외
+        pre_history = history_dicts[:-1]
         history_text = format_history(pre_history)
         
-        print(f"[DB Info] 세션(ID: {session_id})의 히스토리 {len(pre_history)}개를 로드했습니다.")
-        print(f"[Step] RAG 파이프라인 실행 중... Input: {query}")
+        print(f"[Step] Input: {query}")
         
-        # 3. 체인 실행 (Invoke)
         try:
+            # 3. 체인 실행
             result = self.rag_pipeline.invoke({
                 "query": query,
                 "history_text": history_text
             })
             
             answer = result["answer"].strip()
-            rewritten = result["rewritten_query"]
-            print(f"[Step] Rewritten: {rewritten}")
+            # ... (나머지 후처리 로직)
             
             # 4. 전문가 연결 감지 (후처리)
             if "[EXPERT_REFERRAL_NEEDED]" in answer:
@@ -122,15 +130,54 @@ class RAGChain:
                 if "상담" not in answer:
                     answer += "\n\n(전문가와의 상담이 필요해 보여 전문 상담 센터 정보를 준비하고 있습니다.)"
             
-            # 5. Assistant 메시지 저장 (부수 효과)
+            # 5. Assistant 메시지 저장
             self.db.add_chat_message(session_id, "assistant", answer)
             
-            print(f"[Flow End] 답변 생성 완료")
+            print(f"[Flow End] 답변 등 생성 완료")
             return answer
             
         except Exception as e:
             print(f"[Error] RAG 파이프라인 실패: {e}")
             return "죄송합니다. 처리 중 오류가 발생했습니다."
+
+    def run_with_debug(self, query: str, history: List[Dict[str, str]] = []) -> Dict[str, Any]:
+        """
+        [테스트/디버깅용] RAG 파이프라인의 중간 결과까지 포함하여 반환합니다.
+        
+        Args:
+            query: 사용자 질문
+            history: 대화 프롬프트용 히스토리 리스트 [{"role": "user", "content": "..."}]
+        
+        Returns:
+            Dict: {
+                "input_query": str,
+                "rewritten_query": str,
+                "source_docs": List[Dict], # {content, metadata, distance}
+                "context": str,
+                "answer": str
+            }
+        """
+        history_text = format_history(history)
+        
+        try:
+            result = self.rag_pipeline.invoke({
+                "query": query,
+                "history_text": history_text
+            })
+            
+            # 후처리 전 순수 답변 반환
+            return {
+                "input_query": query,
+                "rewritten_query": result.get("rewritten_query", ""),
+                "source_docs": result.get("source_docs", []),
+                "context": result.get("context", ""),
+                "answer": result.get("answer", "").strip()
+            }
+            
+        except Exception as e:
+            return {
+                "error": str(e)
+            }
 
     def _handle_expert_referral(self, session_id: int, answer: str):
         """전문가 연결 DB 기록"""
