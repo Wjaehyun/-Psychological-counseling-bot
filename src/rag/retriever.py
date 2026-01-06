@@ -9,6 +9,22 @@ Issue/Note  : 초기 구현
               similarity 기반 Retriever 동작 검증
 """
 
+
+# -------------------------------------------------------------
+# OpenAIConfig Runtime Injection
+# -------------------------------------------------------------
+
+import config.db_config as db_config
+import os
+
+if not hasattr(db_config, "OpenAIConfig"):
+    class OpenAIConfig:
+        api_key = os.getenv("OPENAI_API_KEY")
+        embedding_model = "text-embedding-3-small"
+
+    db_config.OpenAIConfig = OpenAIConfig
+
+
 # -------------------------------------------------------------
 # Imports
 # -------------------------------------------------------------
