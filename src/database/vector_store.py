@@ -19,7 +19,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from config.db_config import DatabaseConfig, OpenAIConfig
+from config.db_config import DatabaseConfig
+from config.model_config import OpenAIConfig
 
 # -------------------------------------------------------------
 # Vector Store Class
