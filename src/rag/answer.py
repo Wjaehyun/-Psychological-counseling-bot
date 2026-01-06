@@ -32,18 +32,19 @@ SYSTEM_PROMPT = """\
 [기본 원칙]
 1. 모든 답변은 한국어로 진행하며, 차분하고 존중하는 존댓말 상담 톤을 유지합니다.
 2. 답변은 사용자의 상황을 공감하는 문장으로 시작해야합니다.
-3. 모든 답변은 제공된 FAQ 문서(Context)에 근거해야 합니다.
-4. Context에 없는 내용은 추측하거나 만들어내지 말고, 반드시 "제공된 자료만으로는 답변이 어렵다"라고 말합니다.
-5. 의료적·법적 판단이나 진단, 단정적인 처방은 하지 않습니다.
-6. 대화의 내용은 history로 기록하며, user와 assistant의 대화 내용을 구분하여 저장합니다.
+3. 제공된 [검색된 상담 사례(Context)]를 참고하여 답변을 구성합니다. 이는 과거의 비슷한 상담 사례들입니다.
+4. 상담 사례에서 상담사가 어떻게 답변했는지 참고하되, 현재 사용자의 상황에 맞게 자연스럽게 변형하여 답변합니다.
+5. Context에 없는 내용은 추측하거나 만들어내지 말고, 반드시 "제공된 자료만으로는 답변이 어렵다"라고 말합니다.
+6. 의료적·법적 판단이나 진단, 단정적인 처방은 하지 않습니다.
+7. 대화의 내용은 history로 기록하며, user와 assistant의 대화 내용을 구분하여 저장합니다.
 
 [답변 방식]
 - 먼저 사용자의 상황을 짧게 공감합니다.
-- FAQ에 근거한 정보를 정리해서 설명합니다.
+- 유사한 상담 사례를 참고하여 조언이나 위로의 말을 건넵니다.
 - 필요하다면 사용자가 스스로 생각해볼 수 있는 질문을 1~2개 제시합니다.
 
 [Out-of-Scope 처리]
-- 질문에 답할 수 있는 FAQ가 없는 경우:
+- 질문에 답할 수 있는 사례가 없는 경우:
   1. "현재 제공된 자료에는 해당 내용을 다룬 정보가 없다"고 명확히 말합니다.
   2. 사용자의 상황을 더 이해하기 위한 추가 질문을 1~2개 제안합니다.
   3. 필요 시 상담사 연결 안내 문구를 제공합니다.
@@ -84,11 +85,12 @@ def format_sources(docs: List[Dict]) -> str:
         content = doc.get("content", "")
         metadata = doc.get("metadata", {})
         
-        # 메타데이터 정보 (필요시 추가/수정)
-        # category = metadata.get("category", "N/A")
-        # source = metadata.get("source", "N/A")
+        # 메타데이터 정보
+        category = metadata.get("category", "N/A")
+        speaker = metadata.get("speaker", "N/A")
+        severity = metadata.get("severity", "N/A")
         
-        doc_str = f"Document {i+1}:\n{content}\n"
+        doc_str = f"[Case {i+1} | Category: {category} | Speaker: {speaker} | Severity: {severity}]\n{content}\n"
         formatted_docs.append(doc_str)
         
     return "\n---\n".join(formatted_docs)
@@ -218,8 +220,8 @@ if __name__ == "__main__":
     
     # Mock Docs Test
     mock_docs = [
-        {"content": "우울증은 전문가의 도움을 받으면 호전될 수 있습니다.", "metadata": {"source": "health_guide.txt"}},
-        {"content": "규칙적인 운동과 수면이 정신 건강에 도움이 됩니다.", "metadata": {"source": "lifestyle.txt"}}
+        {"content": "우울증은 전문가의 도움을 받으면 호전될 수 있습니다.", "metadata": {"category": "DEPRESSION", "speaker": "상담사", "severity": 2}},
+        {"content": "규칙적인 운동과 수면이 정신 건강에 도움이 됩니다.", "metadata": {"category": "NORMAL", "speaker": "상담사", "severity": 0}}
     ]
     query = "우울할 때 어떻게 해야 해?"
     
