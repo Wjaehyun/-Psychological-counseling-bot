@@ -35,6 +35,26 @@ document.addEventListener('DOMContentLoaded', function () {
     themeToggle.addEventListener('click', toggleTheme);
     colorToggle.addEventListener('click', toggleColorTheme);
 
+    // 로그아웃 버튼 이벤트
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async function () {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = data.redirect || '/login';
+                }
+            } catch (error) {
+                console.error('로그아웃 실패:', error);
+                window.location.href = '/login';
+            }
+        });
+    }
+
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -42,6 +62,50 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
         });
     });
+
+    // 심리조사 뷰 토글
+    const surveyNavBtn = document.getElementById('survey-nav-btn');
+    const chatMessagesEl = document.getElementById('chat-messages');
+    const chatHeader = document.querySelector('.chat-header');
+    const chatInput = document.querySelector('.chat-input-container');
+    const surveyView = document.getElementById('survey-view');
+    const homeNavBtn = document.querySelector('.nav-item[title="홈"]');
+
+    if (surveyNavBtn && surveyView) {
+        surveyNavBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            showSurveyView();
+        });
+    }
+
+    if (homeNavBtn) {
+        homeNavBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            showChatView();
+        });
+    }
+
+    // 챗봇 뷰 표시
+    window.showChatView = function () {
+        if (chatHeader) chatHeader.style.display = 'flex';
+        if (chatMessagesEl) chatMessagesEl.style.display = 'flex';
+        if (chatInput) chatInput.style.display = 'block';
+        if (surveyView) surveyView.style.display = 'none';
+
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        if (homeNavBtn) homeNavBtn.classList.add('active');
+    };
+
+    // 심리조사 뷰 표시
+    window.showSurveyView = function () {
+        if (chatHeader) chatHeader.style.display = 'none';
+        if (chatMessagesEl) chatMessagesEl.style.display = 'none';
+        if (chatInput) chatInput.style.display = 'none';
+        if (surveyView) surveyView.style.display = 'flex';
+
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        if (surveyNavBtn) surveyNavBtn.classList.add('active');
+    };
 
     // Agent selection
     document.querySelectorAll('.agent-item').forEach(item => {
@@ -51,10 +115,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Nav item selection
+    // Nav item selection - 실제 링크가 있는 경우 페이지 이동 허용
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function (e) {
-            e.preventDefault();
+            const href = this.getAttribute('href');
+            // # 링크만 기본 동작 막기, 실제 URL은 이동 허용
+            if (href === '#') {
+                e.preventDefault();
+            }
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             this.classList.add('active');
         });

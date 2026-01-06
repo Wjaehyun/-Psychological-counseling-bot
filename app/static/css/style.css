@@ -165,6 +165,13 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 24px;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .nav-menu {
@@ -235,6 +242,13 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 22px;
+    overflow: hidden;
+}
+
+.bot-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .bot-info h1 {
@@ -320,6 +334,13 @@ body {
     justify-content: center;
     font-size: 18px;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .message-content {
@@ -506,9 +527,101 @@ body {
     margin-bottom: 4px;
 }
 
+.user-id {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
 .token-count {
     font-size: 12px;
     color: var(--text-secondary);
+}
+
+/* User Session Info */
+.user-session-info {
+    padding: 16px;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+}
+
+.user-session-info .section-title {
+    margin-bottom: 12px;
+}
+
+.session-data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.session-item:last-child {
+    border-bottom: none;
+}
+
+.session-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.session-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: right;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mypage-link {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    padding: 10px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mypage-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.logout-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--text-tertiary);
 }
 
 /* Sidebar Tabs */
@@ -712,4 +825,20 @@ body {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* Survey View in Main Area */
+.survey-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.survey-view .survey-container {
+    max-width: 600px;
+    width: 100%;
 }

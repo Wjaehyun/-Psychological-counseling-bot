@@ -16,17 +16,23 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-logo">🧠</div>
+                <div class="auth-logo"><img src="{{ url_for('static', filename='images/icon.jpg') }}" alt="Logo"></div>
                 <h1>심리 상담 AI</h1>
                 <p>마음을 나누는 대화, 지금 시작하세요</p>
             </div>
 
             <form class="auth-form" id="login-form">
+                <!-- ========================================
+                     아이디 입력
+                     ======================================== -->
                 <div class="form-group">
-                    <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                    <label for="username">아이디</label>
+                    <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required>
                 </div>
 
+                <!-- ========================================
+                     비밀번호 입력
+                     ======================================== -->
                 <div class="form-group">
                     <label for="password">비밀번호</label>
                     <div class="password-input">
@@ -41,6 +47,9 @@
                     </div>
                 </div>
 
+                <!-- ========================================
+                     로그인 옵션
+                     ======================================== -->
                 <div class="form-options">
                     <label class="checkbox-label">
                         <input type="checkbox" name="remember">
@@ -49,12 +58,18 @@
                     <a href="#" class="forgot-link">비밀번호 찾기</a>
                 </div>
 
+                <!-- ========================================
+                     로그인 버튼
+                     ======================================== -->
                 <button type="submit" class="auth-btn primary">로그인</button>
 
                 <div class="divider">
                     <span>또는</span>
                 </div>
 
+                <!-- ========================================
+                     소셜 로그인 버튼
+                     ======================================== -->
                 <button type="button" class="auth-btn social google">
                     <svg width="20" height="20" viewBox="0 0 24 24">
                         <path fill="#4285F4"

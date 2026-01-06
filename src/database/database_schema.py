@@ -47,12 +47,30 @@ class User(Base):
     사용자 테이블
     - 익명 사용자도 지원 (username이 자동 생성될 수 있음)
     - password_hash는 선택적 (익명 사용 시 NULL)
+    - 회원가입 시 수집하는 개인정보 포함
     """
     __tablename__ = "users"
     
+    # ---------------------------------------------------------
+    # 기본 인증 정보
+    # ---------------------------------------------------------
     id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String(50), nullable=False, unique=True)
-    password_hash = Column(String(255), nullable=True)
+    username = Column(String(50), nullable=False, unique=True)  # 아이디
+    password_hash = Column(String(255), nullable=True)          # Bcrypt 해시 비밀번호
+    
+    # ---------------------------------------------------------
+    # 개인 정보 (회원가입 시 입력)
+    # ---------------------------------------------------------
+    name = Column(String(50), nullable=True)           # 이름
+    gender = Column(String(10), nullable=True)         # 성별 (male/female)
+    birthdate = Column(String(10), nullable=True)      # 생년월일 (YYYY-MM-DD)
+    phone = Column(String(20), nullable=True)          # 전화번호
+    address = Column(String(255), nullable=True)       # 기본 주소 (RAG 상담 데이터 활용 가능)
+    address_detail = Column(String(255), nullable=True) # 상세 주소
+    
+    # ---------------------------------------------------------
+    # 타임스탬프
+    # ---------------------------------------------------------
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime, nullable=True)
     

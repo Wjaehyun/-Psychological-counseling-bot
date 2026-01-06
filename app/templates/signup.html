@@ -10,30 +10,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 다음 우편번호 API (주소 검색) -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 
 <body class="auth-body">
-    <div class="auth-container">
+    <div class="auth-container signup-container">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-logo">🧠</div>
+                <div class="auth-logo"><img src="{{ url_for('static', filename='images/icon.jpg') }}" alt="Logo"></div>
                 <h1>회원가입</h1>
                 <p>심리 상담 AI와 함께 마음 건강을 시작하세요</p>
             </div>
 
             <form class="auth-form" id="signup-form">
+                <!-- ========================================
+                     아이디 입력 + 중복확인
+                     ======================================== -->
                 <div class="form-group">
-                    <label for="name">이름</label>
-                    <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+                    <label for="username">아이디 <span class="required">*</span></label>
+                    <div class="input-with-button">
+                        <input type="text" id="username" name="username" placeholder="4자 이상 입력하세요" required
+                            minlength="4">
+                        <button type="button" class="check-btn" id="check-username-btn">중복확인</button>
+                    </div>
+                    <span class="field-message" id="username-message"></span>
                 </div>
 
+                <!-- ========================================
+                     비밀번호 입력
+                     ======================================== -->
                 <div class="form-group">
-                    <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">비밀번호</label>
+                    <label for="password">비밀번호 <span class="required">*</span></label>
                     <div class="password-input">
                         <input type="password" id="password" name="password" placeholder="8자 이상 입력하세요" required
                             minlength="8">
@@ -50,8 +58,11 @@
                     </div>
                 </div>
 
+                <!-- ========================================
+                     비밀번호 확인
+                     ======================================== -->
                 <div class="form-group">
-                    <label for="password-confirm">비밀번호 확인</label>
+                    <label for="password-confirm">비밀번호 확인 <span class="required">*</span></label>
                     <div class="password-input">
                         <input type="password" id="password-confirm" name="password-confirm"
                             placeholder="비밀번호를 다시 입력하세요" required>
@@ -65,6 +76,69 @@
                     </div>
                 </div>
 
+                <!-- ========================================
+                     이름 입력
+                     ======================================== -->
+                <div class="form-group">
+                    <label for="name">이름 <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+                </div>
+
+                <!-- ========================================
+                     성별 선택
+                     ======================================== -->
+                <div class="form-group">
+                    <label>성별</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="male">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">남성</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="female">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">여성</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ========================================
+                     생년월일 입력
+                     ======================================== -->
+                <div class="form-group">
+                    <label for="birthdate">생년월일</label>
+                    <input type="date" id="birthdate" name="birthdate">
+                </div>
+
+                <!-- ========================================
+                     전화번호 입력
+                     ======================================== -->
+                <div class="form-group">
+                    <label for="phone">전화번호</label>
+                    <input type="tel" id="phone" name="phone" placeholder="010-0000-0000"
+                        pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+                </div>
+
+                <!-- ========================================
+                     주소 입력 (다음 우편번호 API)
+                     ======================================== -->
+                <div class="form-group">
+                    <label for="address">주소</label>
+                    <div class="input-with-button">
+                        <input type="text" id="address" name="address" placeholder="주소를 검색하세요" readonly>
+                        <button type="button" class="check-btn" id="search-address-btn">주소 검색</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address-detail">상세주소</label>
+                    <input type="text" id="address-detail" name="address-detail" placeholder="상세주소를 입력하세요">
+                </div>
+
+                <!-- ========================================
+                     이용약관 동의
+                     ======================================== -->
                 <div class="form-options">
                     <label class="checkbox-label">
                         <input type="checkbox" name="terms" required>
@@ -72,12 +146,18 @@
                     </label>
                 </div>
 
+                <!-- ========================================
+                     가입하기 버튼
+                     ======================================== -->
                 <button type="submit" class="auth-btn primary">가입하기</button>
 
                 <div class="divider">
                     <span>또는</span>
                 </div>
 
+                <!-- ========================================
+                     소셜 로그인 버튼
+                     ======================================== -->
                 <button type="button" class="auth-btn social google">
                     <svg width="20" height="20" viewBox="0 0 24 24">
                         <path fill="#4285F4"
