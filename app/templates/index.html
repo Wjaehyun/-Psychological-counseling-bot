@@ -107,7 +107,7 @@
                             <path d="M12 2a10 10 0 0 1 0 20"></path>
                         </svg>
                     </button>
-                    <button class="action-btn" title="검색">
+                    <button class="action-btn" id="search-toggle" title="검색">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
                             <circle cx="11" cy="11" r="8"></circle>
@@ -398,6 +398,54 @@
                 </div>
             </div>
         </aside>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-modal">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="대화 내용 검색..." autocomplete="off">
+                    <button class="search-clear-btn" id="search-clear" title="검색어 지우기">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <button class="search-close-btn" id="search-close" title="닫기">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="search-results" id="search-results">
+                <div class="search-empty">
+                    <span class="search-empty-icon">🔍</span>
+                    <p>검색어를 입력하세요</p>
+                </div>
+            </div>
+            <div class="search-footer">
+                <span class="search-result-count" id="search-result-count"></span>
+                <div class="search-nav-btns">
+                    <button class="search-nav-btn" id="search-prev" title="이전 결과" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="search-nav-btn" id="search-next" title="다음 결과" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
