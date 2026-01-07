@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize theme and color
     initTheme();
     initColorTheme();
-<<<<<<< HEAD
-=======
     
     // Load recent chats from database
     loadRecentChats();
@@ -301,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function () {
             showToast('새 대화 시작 중 오류가 발생했습니다');
         }
     }
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 
     // Event Listeners
     sendBtn.addEventListener('click', sendMessage);
@@ -422,11 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Send user message and get bot response
      */
-<<<<<<< HEAD
-    function sendMessage() {
-=======
     async function sendMessage() {
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
         const text = messageInput.value.trim();
         if (!text) return;
 
@@ -437,14 +430,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Show typing indicator
         showTypingIndicator();
 
-<<<<<<< HEAD
-        // Simulate bot response
-        setTimeout(() => {
-            hideTypingIndicator();
-            const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
-            addMessage(randomResponse, 'bot');
-        }, 1000 + Math.random() * 1000);
-=======
         try {
             // Call RAG API
             const response = await fetch('/api/chat', {
@@ -469,7 +454,6 @@ document.addEventListener('DOMContentLoaded', function () {
             hideTypingIndicator();
             addMessage('죄송합니다. 서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.', 'bot');
         }
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     }
 
     /**
@@ -493,11 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         ` : `
             <div class="message bot-message">
-<<<<<<< HEAD
-                <div class="message-avatar">🤖</div>
-=======
                 <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
                 <div class="message-content">
                     <div class="message-bubble">
                         <p>${escapeHtml(text)}</p>
@@ -539,11 +519,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function showTypingIndicator() {
         const typingHTML = `
             <div class="message bot-message" id="typing-indicator">
-<<<<<<< HEAD
-                <div class="message-avatar">🤖</div>
-=======
                 <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
                 <div class="message-content">
                     <div class="typing-indicator">
                         <span></span>

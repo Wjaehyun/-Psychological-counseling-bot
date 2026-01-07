@@ -140,11 +140,6 @@ function showResult() {
     });
 
     // Update result display
-<<<<<<< HEAD
-    document.getElementById('score-value').textContent = percentage;
-
-    let resultIcon, resultTitle, advice;
-=======
     const scoreCircle = document.getElementById('score-circle');
     document.getElementById('score-value').textContent = percentage;
 
@@ -152,46 +147,30 @@ function showResult() {
     scoreCircle.classList.remove('score-excellent', 'score-good', 'score-warning', 'score-danger');
 
     let resultIcon, resultTitle, advice, scoreClass;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 
     if (percentage >= 80) {
         resultIcon = '💚';
         resultTitle = '매우 양호';
-<<<<<<< HEAD
-=======
         scoreClass = 'score-excellent';
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
         advice = '현재 매우 건강한 심리 상태를 유지하고 계십니다. 지금처럼 자기 관리를 잘 해주시면 됩니다. 가끔 스트레스 해소를 위한 취미 활동을 즐기시는 것도 좋습니다.';
     } else if (percentage >= 60) {
         resultIcon = '💛';
         resultTitle = '양호';
-<<<<<<< HEAD
-=======
         scoreClass = 'score-good';
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
         advice = '전반적으로 양호한 상태입니다. 가벼운 스트레스 관리 기법을 배워보시는 것이 도움이 될 수 있습니다. 규칙적인 운동과 충분한 수면을 권장드립니다.';
     } else if (percentage >= 40) {
         resultIcon = '🧡';
         resultTitle = '주의 필요';
-<<<<<<< HEAD
-=======
         scoreClass = 'score-warning';
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
         advice = '약간의 심리적 어려움이 있는 것으로 보입니다. AI 상담을 통해 현재 상황에 대해 이야기 나눠보시는 것을 권장드립니다. 필요시 전문가 상담도 고려해 보세요.';
     } else {
         resultIcon = '❤️';
         resultTitle = '전문 상담 권장';
-<<<<<<< HEAD
-        advice = '현재 심리적으로 어려운 시기를 보내고 계신 것 같습니다. AI 상담과 함께 전문 상담사와의 상담을 강력히 권장드립니다. 혼자 힘들어하지 마시고 도움을 받으세요.';
-    }
-
-=======
         scoreClass = 'score-danger';
         advice = '현재 심리적으로 어려운 시기를 보내고 계신 것 같습니다. AI 상담과 함께 전문 상담사와의 상담을 강력히 권장드립니다. 혼자 힘들어하지 마시고 도움을 받으세요.';
     }
 
     scoreCircle.classList.add(scoreClass);
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     document.getElementById('result-icon').textContent = resultIcon;
     document.getElementById('score-desc').textContent = resultTitle;
     document.getElementById('result-advice').textContent = advice;

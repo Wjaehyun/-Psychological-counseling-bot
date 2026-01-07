@@ -797,7 +797,7 @@
 
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-    }
+
 
     .trend-card {
         flex-direction: column;
