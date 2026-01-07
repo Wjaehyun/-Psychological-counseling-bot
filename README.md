@@ -86,7 +86,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
     <img src="images/손현우.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="손현우"/>
     <h3 style="margin: 10px 0 5px 0;">손현우</h3>
     <p style="margin: 5px 0;"> ?? </p>
-    <a href="https://github.com/sjy361872">
+    <a href="https://github.com/kevinhwsohn-afk">
         <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
@@ -96,7 +96,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
     <img src="images/우재현.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="우재현"/>
     <h3 style="margin: 10px 0 5px 0;">우재현</h3>
     <p style="margin: 5px 0;"> ?? </p>
-    <a href="https://github.com/ykgstar37-lab">
+    <a href="https://github.com/Wjaehyun">
        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
@@ -106,7 +106,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
     <img src="images/이성진.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="이성진"/>
     <h3 style="margin: 10px 0 5px 0;">이성진</h3>
     <p style="margin: 5px 0;"> ?? </p>
-    <a href="https://github.com/ykgstar37-lab">
+    <a href="https://github.com/krsjlee">
         <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
@@ -116,7 +116,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
     <img src="images/장이선.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="장이선"/>
     <h3 style="margin: 10px 0 5px 0;">장이선</h3>
     <p style="margin: 5px 0;"> ?? </p>
-    <a href="https://github.com/wjdtpdus25">
+    <a href="https://github.com/jang-yiseon">
         <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
@@ -126,7 +126,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
     <img src="images/조남웅.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="조남웅"/>
     <h3 style="margin: 10px 0 5px 0;">조남웅</h3>
     <p style="margin: 5px 0;"> ?? </p>
-    <a href="https://github.com/silentkit12">
+    <a href="https://github.com/whskadnd">
         <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
