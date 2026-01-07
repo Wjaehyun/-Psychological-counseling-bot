@@ -76,6 +76,3 @@ Thumbs.db
 
 # Streamlit
 .streamlit/secrets.toml
-
-# Source code (excluded from this push)
-src/
