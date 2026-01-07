@@ -25,6 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Load recent chats from database
     loadRecentChats();
+    
+    // 페이지 로드 시 새 세션 자동 시작 (이전 세션 히스토리 간섭 방지)
+    initNewSession();
+    
+    /**
+     * Initialize a fresh session on page load
+     */
+    async function initNewSession() {
+        try {
+            await fetch('/api/new-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            console.log('[Init] New session started on page load');
+        } catch (error) {
+            console.error('[Init] Failed to start new session:', error);
+        }
+    }
 
     /**
      * Load recent chats from API and render in sidebar

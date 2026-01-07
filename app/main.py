@@ -43,6 +43,10 @@ app.secret_key = 'your-secret-key-change-in-production'  # 실제 배포 시 환
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['PERMANENT_SESSION_LIFETIME'] = 86400  # 24시간
 
+# 새 세션 요청 추적용 (서버 메모리)
+# Key: username, Value: True (new session requested)
+_new_session_requests = {}
+
 # -------------------------------------------------------------
 # Database Configuration
 # -------------------------------------------------------------
@@ -538,8 +542,15 @@ def api_new_session():
         }), 401
     
     try:
-        # Flask 세션에서 현재 채팅 세션 ID 제거
-        session.pop('chat_session_id', None)
+        # 새 세션 요청 플래그 설정 (서버 메모리)
+        username = session['user']['username']
+        _new_session_requests[username] = True
+        
+        # Flask 세션에서도 초기화
+        session['chat_session_id'] = None
+        session.modified = True
+        
+        print(f"[Debug] New session requested for user: {username}")
         
         return jsonify({
             'success': True,
@@ -860,7 +871,18 @@ def api_chat_stream():
     
     # 세션 데이터를 미리 복사 (제너레이터 안에서는 요청 컨텍스트 사용 불가)
     user_info = dict(session['user'])
-    chat_session_id = session.get('chat_session_id')
+    username = user_info.get('username', '')
+    
+    # 서버 메모리에서 새 세션 요청 확인
+    force_new = _new_session_requests.pop(username, False)
+    
+    if force_new:
+        chat_session_id = None
+        session['chat_session_id'] = None
+        print(f"[Debug] Stream API - force_new detected for {username}, creating new session")
+    else:
+        chat_session_id = session.get('chat_session_id')
+        print(f"[Debug] Stream API - using existing session: {chat_session_id}")
     
     def generate_stream():
         """SSE 스트림 생성"""
