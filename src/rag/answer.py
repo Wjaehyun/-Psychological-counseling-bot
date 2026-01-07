@@ -20,35 +20,35 @@ from typing import List, Dict, Optional, Any
 from src.database.vector_store import VectorStore
 from src.database import db_manager
 from config.model_config import create_chat_model
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 # -------------------------------------------------------------
 # Constants
 # -------------------------------------------------------------
 
 SYSTEM_PROMPT = """\
-당신은 공감적이고 전문적인 [심리 상담형 챗봇]입니다. 아래 지침을 엄격히 준수하세요.
+당신은 공감적이고 따뜻한 심리 상담 전문가입니다.
 
-[핵심 원칙]
-1. 모든 답변은 한국어로, 차분하고 존중하는 존댓말 상담 톤을 유지합니다.
-2. 답변의 시작은 반드시 사용자의 감정이나 상황에 대한 깊은 공감으로 시작합니다.
-3. [Context]로 제공된 상담 사례를 바탕으로 답변하되, 기계적인 복사가 아닌 현재 상황에 맞게 자연스럽게 변형합니다.
-4. 의료/법적 진단이나 단정적 처방은 금지하며, 전문가의 도움을 권유하는 수준으로 답합니다.
-5. 답변은 공감, 조언, 질문을 포함하여 전체 1~2문장 내외로 간결하게 작성하세요.
+[핵심 역할]
+- 사용자의 감정과 고민에 진심으로 공감합니다.
+- 경청하고 위로하며, 필요시 간단한 조언을 제공합니다.
+- 의료적 진단 없이 심리적 지지와 정서적 안정을 돕습니다.
 
-[제약 사항]
-- 사용자가 인사로 대화를 시작할 경우, 사용자와 같은 인사를 한 뒤, 무엇을 도와드릴까요?로 대답하세요.
-- 사용자가 감정을 표현할 경우 이유를 물어보세요.
-- Context에 없는 내용은 절대 추측하거나 지어내지 마세요. 
-- 정보가 없는 경우: "제공된 자료만으로는 답변이 어렵습니다"라고 정직하게 답한 뒤, 상황 파악을 위한 질문을 하세요.
-- 상황 파악을 위한 질문을 할 때, 자살, 자해, 죽음 등 직접적인 언어를 사용하지 마세요.
-- 상담사 연결 요청 시: "대화 내역을 정리하여 전달할 준비가 되어 있다"고 안내하되, 특정 병원/센터 정보 제공은 불가함을 명확히 합니다.
+[답변 방식]
+1. 반드시 공감으로 시작: "그런 마음이 드시는군요", "많이 힘드셨겠어요" 등
+2. Context에 참고할 상담 대화가 있으면 활용하세요.
+3. Context가 비어있거나 관련 없어도, 직접 따뜻한 상담사로서 답변하세요.
+4. 1~2문장으로 간결하게 작성합니다.
+5. 상황을 더 이해하기 위한 열린 질문을 1개 추가할 수 있습니다.
 
-[답변 구조]
-1. [공감]: 사용자의 마음에 공감하는 따뜻한 문장.
-2. [조언/위로]: Context 기반의 유사 사례 적용 및 심리적 지지(0~1개)
-3. [성찰 질문]: 사용자가 스스로를 돌아볼 수 있는 질문 (0~1개).
+[금지 사항]
+- 의학적 진단이나 처방 금지
+- 자살/자해 관련 직접적 언어 사용 금지
+- "제공된 자료만으로는 답변이 어렵습니다" 같은 기계적 거절 금지
 
-[주의] 규칙이나 카테고리명을 직접 노출하지 마세요. 오직 상담 본문(answer)만 출력합니다.
+[인사 응답]
+사용자가 인사하면: "안녕하세요! 오늘 어떤 이야기를 나누고 싶으신가요?"
 """
 
 # -------------------------------------------------------------
@@ -67,21 +67,30 @@ def format_sources(docs: List[Dict]) -> str:
     """
     if not docs:
         return "검색된 관련 문서가 없습니다."
+    
+    # 실제 content가 있는 문서만 필터링
+    valid_docs = [doc for doc in docs if doc.get("content", "").strip()]
+    
+    if not valid_docs:
+        return "검색된 관련 문서가 없습니다."
 
     formatted_docs = []
-    for i, doc in enumerate(docs):
-        content = doc.get("content", "")
+    for i, doc in enumerate(valid_docs):
+        content = doc.get("content", "").strip()
+        
+        # 메타데이터에서 사용 가능한 정보 추출 (실제 VectorDB 키 사용)
         metadata = doc.get("metadata", {})
+        session_id = metadata.get("session_id", "")
+        category = metadata.get("default_category") or metadata.get("category", "")
         
-        # 메타데이터 정보
-        category = metadata.get("category", "N/A")
-        speaker = metadata.get("speaker", "N/A")
-        severity = metadata.get("severity", "N/A")
-        
-        doc_str = f"[Case {i+1} | Category: {category} | Speaker: {speaker} | Severity: {severity}]\n{content}\n"
+        # 간결한 포맷: 핵심 내용만 전달
+        if category:
+            doc_str = f"[상담사례 {i+1} - {category}]\n{content}"
+        else:
+            doc_str = f"[상담사례 {i+1}]\n{content}"
         formatted_docs.append(doc_str)
         
-    return "\n---\n".join(formatted_docs)
+    return "\n\n---\n\n".join(formatted_docs)
 
 def format_history(history: List[Dict]) -> str:
     """
@@ -100,10 +109,6 @@ def format_history(history: List[Dict]) -> str:
         
     return "\n".join(formatted)
 
-# retriever 파일 작성 후 추가 진행
-# rewrite.py 작성 후 추가 진행
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
 
 # -------------------------------------------------------------
 # LCEL Chain Factory
@@ -197,7 +202,6 @@ def generate_answer(
     except Exception as e:
         return f"[Error] 답변 생성 중 오류가 발생했습니다: {str(e)}"
 
-
 # -------------------------------------------------------------
 # Entry Point
 # -------------------------------------------------------------
@@ -228,4 +232,3 @@ if __name__ == "__main__":
         
     except Exception as e:
         print(f"[Error] {e}")
-
