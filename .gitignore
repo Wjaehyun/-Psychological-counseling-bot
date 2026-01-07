@@ -60,7 +60,11 @@ data/processed/*.jsonl
 data/processed/*.txt
 data/processed/*.csv
 data/processed/*.jsonl
-
+data/vector_store/chroma.sqlite3
+data/vector_store/323fc3eb-1a52-48b0-b460-cbb0e1bbbbb7/data_level0.bin
+data/vector_store/323fc3eb-1a52-48b0-b460-cbb0e1bbbbb7/header.bin
+data/vector_store/323fc3eb-1a52-48b0-b460-cbb0e1bbbbb7/length.bin
+data/vector_store/323fc3eb-1a52-48b0-b460-cbb0e1bbbbb7/link_lists.bin
 
 # Logs
 logs/
