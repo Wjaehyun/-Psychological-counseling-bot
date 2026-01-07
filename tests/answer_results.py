@@ -14,7 +14,7 @@ import os
 import sys
 
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from typing import List, Dict, Optional, Any
 
 from src.database.vector_store import VectorStore
@@ -59,10 +59,19 @@ SYSTEM_PROMPT = """\
    - 예: "어떤 순간에 특히 그런 감정이 드시나요?", "평소 스트레스를 어떻게 푸시나요?"
 
 [상황별 대응]
-- **인사**: "안녕하세요! 오늘 어떤 이야기를 나누고 싶으신가요? 편하게 말씀해주세요."
-- **위기 신호** (자살/자해 언급): 공감하되 전문가 도움 권유, 답변 끝에 [EXPERT_REFERRAL_NEEDED] 태그
-- **반복 질문**: "이전에 말씀하셨던 [내용]과 관련이 있으신가요?" 로 연결
-- **감사 인사**: "함께 이야기 나눌 수 있어서 감사해요. 언제든 다시 찾아주세요."
+- **인사** ("안녕", "안녕하세요", "처음이에요", "hi", "hello" 등): 
+  따뜻하고 환영하는 톤으로 먼저 인사하고, 안전한 공간임을 느끼게 해주세요.
+  예: "안녕하세요! 만나서 반가워요. 여기는 당신의 이야기를 충분히 들을 수 있는 편안한 공간이에요. 
+  최근에 마음이 무거운 일이 있으신가요, 아니면 누군가와 이야기하고 싶으신 게 있으신가요? 편하게 나눠주세요."
+  
+- **위기 신호** (자살/자해 언급): 
+  공감하되 전문가 도움 권유, 답변 끝에 [EXPERT_REFERRAL_NEEDED] 태그
+  
+- **반복 질문**: 
+  "이전에 말씀하셨던 [내용]과 관련이 있으신가요?" 로 연결
+  
+- **감사 인사**: 
+  "함께 이야기 나눌 수 있어서 감사해요. 당신의 용기에 응원합니다. 언제든 다시 찾아주세요."
 
 [금지 사항]
 - 의학적 진단, 약물 처방, 질병명 단정 금지
@@ -74,6 +83,9 @@ SYSTEM_PROMPT = """\
 - 존댓말 사용, 따뜻하고 부드러운 어조
 - 판단하지 않고 있는 그대로 받아들이는 태도
 - 과도한 긍정보다는 현실적 공감과 지지
+- 첫 만남의 어색함을 자연스럽게 풀어주기
+
+**중요**: 사용자가 "안녕", "안녕하세요" 같은 간단한 인사만 했다면, Context나 History를 무시하고 위 [상황별 대응 - 인사]의 예시처럼 자연스럽게 환영하고 안전감을 주면서 대화를 시작하세요.
 """
 
 # -------------------------------------------------------------
@@ -232,28 +244,52 @@ def generate_answer(
 # -------------------------------------------------------------
 
 if __name__ == "__main__":
-    # 테스트 실행
+    # 대화형 테스트
     print("=== RAG Answer Generation Test ===")
+    print("'exit' 입력 시 종료\n")
     
-    # Mock Docs Test
+    # Mock Docs (기본 예시)
     mock_docs = [
         {"content": "우울증은 전문가의 도움을 받으면 호전될 수 있습니다.", "metadata": {"category": "DEPRESSION", "speaker": "상담사", "severity": 2}},
         {"content": "규칙적인 운동과 수면이 정신 건강에 도움이 됩니다.", "metadata": {"category": "NORMAL", "speaker": "상담사", "severity": 0}}
     ]
-    query = "우울할 때 어떻게 해야 해?"
     
-    print("\n[Input Query]", query)
+    # 대화 히스토리
+    history = []
     
-    # generate_answer 함수 직접 테스트 (모델이 설정되어 있다고 가정)
     try:
         model = create_chat_model()
         chain = create_answer_chain(model)
         
-        ctx = format_sources(mock_docs)
-        response = chain.invoke({"context": ctx, "history": "없음", "query": query})
-        
-        print("\n[Generated Response (LCEL)]")
-        print(response)
-        
+        while True:
+            # 사용자 입력
+            query = input("\n[당신] ").strip()
+            
+            if query.lower() in ["exit", "종료", "quit"]:
+                print("테스트를 종료합니다.")
+                break
+            
+            if not query:
+                continue
+            
+            # Context 구성
+            ctx = format_sources(mock_docs)
+            hist = format_history(history)
+            
+            # 답변 생성
+            response = chain.invoke({
+                "context": ctx,
+                "history": hist if hist else "없음",
+                "query": query
+            })
+            
+            print(f"\n[상담사] {response}")
+            
+            # 히스토리 저장
+            history.append({"role": "user", "content": query})
+            history.append({"role": "assistant", "content": response})
+            
+    except KeyboardInterrupt:
+        print("\n\n테스트를 종료합니다.")
     except Exception as e:
         print(f"[Error] {e}")
