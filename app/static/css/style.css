@@ -439,7 +439,7 @@ body {
     padding: 8px 16px;
 }
 
-.chat-input-wrapper input {
+.chat-input-wrapper textarea {
     flex: 1;
     border: none;
     background: transparent;
@@ -447,9 +447,15 @@ body {
     color: var(--text-primary);
     outline: none;
     padding: 8px 0;
+    resize: none;
+    min-height: 24px;
+    max-height: 150px;
+    line-height: 1.5;
+    font-family: inherit;
+    overflow-y: auto;
 }
 
-.chat-input-wrapper input::placeholder {
+.chat-input-wrapper textarea::placeholder {
     color: var(--text-tertiary);
 }
 

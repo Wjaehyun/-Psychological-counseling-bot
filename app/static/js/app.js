@@ -320,12 +320,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event Listeners
     sendBtn.addEventListener('click', sendMessage);
-    messageInput.addEventListener('keypress', function (e) {
+    messageInput.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             sendMessage();
         }
     });
+    
+    // Textarea auto-resize
+    messageInput.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+    });
+    
+    // Reset height after sending message
+    const originalSendMessage = sendMessage;
+    sendMessage = async function() {
+        await originalSendMessage();
+        messageInput.style.height = 'auto';
+    };
 
     themeToggle.addEventListener('click', toggleTheme);
     colorToggle.addEventListener('click', toggleColorTheme);
