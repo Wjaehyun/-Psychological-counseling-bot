@@ -22,6 +22,286 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize theme and color
     initTheme();
     initColorTheme();
+<<<<<<< HEAD
+=======
+    
+    // Load recent chats from database
+    loadRecentChats();
+
+    /**
+     * Load recent chats from API and render in sidebar
+     */
+    async function loadRecentChats() {
+        const container = document.getElementById('recent-chats-container');
+        if (!container) return;
+        
+        try {
+            const response = await fetch('/api/recent-chats');
+            const data = await response.json();
+            
+            if (data.success && data.chats && data.chats.length > 0) {
+                container.innerHTML = data.chats.map(chat => `
+                    <div class="chat-item" data-session-id="${chat.id}">
+                        <span class="chat-icon">💭</span>
+                        <div class="chat-preview">
+                            <span class="chat-name">${escapeHtmlSimple(chat.title)}</span>
+                            <span class="chat-date">${chat.date}</span>
+                        </div>
+                        <button class="chat-delete-btn" data-session-id="${chat.id}" title="대화 삭제">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = `
+                    <div class="chat-item empty">
+                        <span class="chat-icon">💬</span>
+                        <div class="chat-preview">
+                            <span class="chat-name">채팅 기록이 없습니다</span>
+                        </div>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('최근 채팅 로드 실패:', error);
+            container.innerHTML = `
+                <div class="chat-item error">
+                    <span class="chat-icon">⚠️</span>
+                    <div class="chat-preview">
+                        <span class="chat-name">로드 실패</span>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // Simple HTML escape for chat titles
+    function escapeHtmlSimple(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Click event for recent chat items and delete buttons
+    document.addEventListener('click', async function(e) {
+        // Handle delete button click
+        const deleteBtn = e.target.closest('.chat-delete-btn');
+        if (deleteBtn) {
+            e.stopPropagation();
+            const sessionId = deleteBtn.dataset.sessionId;
+            await deleteChatSession(sessionId);
+            return;
+        }
+        
+        // Handle chat item click (for switching sessions)
+        const chatItem = e.target.closest('.chat-item[data-session-id]');
+        if (chatItem && !e.target.closest('.chat-delete-btn')) {
+            const sessionId = chatItem.dataset.sessionId;
+            await switchToSession(sessionId);
+        }
+    });
+    
+    /**
+     * Delete a chat session
+     */
+    async function deleteChatSession(sessionId) {
+        // Confirmation dialog
+        if (!confirm('이 대화를 삭제하시겠습니까?\n삭제된 대화는 복구할 수 없습니다.')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/delete-session/${sessionId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showToast('대화가 삭제되었습니다');
+                // Refresh recent chats list
+                loadRecentChats();
+            } else {
+                showToast('삭제 실패: ' + (data.message || '알 수 없는 오류'));
+            }
+        } catch (error) {
+            console.error('대화 삭제 중 오류:', error);
+            showToast('대화 삭제 중 오류가 발생했습니다');
+        }
+    }
+    
+    /**
+     * Switch to a previous chat session and load its history
+     */
+    async function switchToSession(sessionId) {
+        try {
+            // 1. Switch the active session
+            const switchResponse = await fetch('/api/switch-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: parseInt(sessionId) })
+            });
+            
+            const switchData = await switchResponse.json();
+            if (!switchData.success) {
+                showToast('세션 전환 실패: ' + (switchData.message || '알 수 없는 오류'));
+                return;
+            }
+            
+            // 2. Load the chat history
+            const historyResponse = await fetch(`/api/chat-history/${sessionId}`);
+            const historyData = await historyResponse.json();
+            
+            if (!historyData.success) {
+                showToast('채팅 기록 로드 실패');
+                return;
+            }
+            
+            // 3. Clear current messages and load history
+            const chatMessagesEl = document.getElementById('chat-messages');
+            if (!chatMessagesEl) return;
+            
+            // Keep only the welcome message or clear all
+            chatMessagesEl.innerHTML = '';
+            
+            // Add welcome message
+            chatMessagesEl.innerHTML = `
+                <div class="message bot-message">
+                    <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <p>안녕하세요! 저는 심리 상담을 도와드리는 AI 도우미입니다. 😊</p>
+                            <p>오늘 어떤 이야기를 나누고 싶으신가요? 편하게 말씀해 주세요.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add historical messages
+            historyData.messages.forEach(msg => {
+                const time = msg.created_at ? new Date(msg.created_at).toLocaleTimeString('ko-KR', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                }) : '';
+                
+                if (msg.role === 'user') {
+                    chatMessagesEl.innerHTML += `
+                        <div class="message user-message">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>${escapeHtmlSimple(msg.content)}</p>
+                                </div>
+                                <span class="message-time">${time}</span>
+                            </div>
+                        </div>
+                    `;
+                } else if (msg.role === 'assistant') {
+                    chatMessagesEl.innerHTML += `
+                        <div class="message bot-message">
+                            <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>${escapeHtmlSimple(msg.content)}</p>
+                                </div>
+                                <span class="message-time">${time}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Scroll to bottom
+            chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+            
+            // Show chat view if in survey mode
+            if (typeof showChatView === 'function') {
+                showChatView();
+            }
+            
+            // Highlight selected chat item
+            document.querySelectorAll('.chat-item[data-session-id]').forEach(item => {
+                item.classList.remove('active');
+            });
+            const selectedItem = document.querySelector(`.chat-item[data-session-id="${sessionId}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('active');
+            }
+            
+            showToast('이전 대화를 불러왔습니다');
+            
+        } catch (error) {
+            console.error('세션 전환 중 오류:', error);
+            showToast('세션 전환 중 오류가 발생했습니다');
+        }
+    }
+    
+    // New chat button handler
+    const newChatBtn = document.getElementById('new-chat-btn');
+    if (newChatBtn) {
+        newChatBtn.addEventListener('click', startNewChat);
+    }
+    
+    /**
+     * Start a new chat session
+     */
+    async function startNewChat() {
+        try {
+            // Clear server-side session
+            const response = await fetch('/api/new-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            const data = await response.json();
+            
+            // Clear chat messages UI
+            const chatMessagesEl = document.getElementById('chat-messages');
+            if (chatMessagesEl) {
+                chatMessagesEl.innerHTML = `
+                    <div class="message bot-message">
+                        <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>안녕하세요! 저는 심리 상담을 도와드리는 AI 도우미입니다. 😊</p>
+                                <p>오늘 어떤 이야기를 나누고 싶으신가요? 편하게 말씀해 주세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Show chat view if in survey mode
+            if (typeof showChatView === 'function') {
+                showChatView();
+            }
+            
+            // Remove active state from recent chat items
+            document.querySelectorAll('.chat-item[data-session-id]').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Focus on input
+            const messageInput = document.getElementById('message-input');
+            if (messageInput) {
+                messageInput.focus();
+            }
+            
+            showToast('새 대화가 시작되었습니다');
+            
+            // Refresh recent chats list
+            loadRecentChats();
+            
+        } catch (error) {
+            console.error('새 대화 시작 중 오류:', error);
+            showToast('새 대화 시작 중 오류가 발생했습니다');
+        }
+    }
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 
     // Event Listeners
     sendBtn.addEventListener('click', sendMessage);
@@ -142,7 +422,11 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Send user message and get bot response
      */
+<<<<<<< HEAD
     function sendMessage() {
+=======
+    async function sendMessage() {
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
         const text = messageInput.value.trim();
         if (!text) return;
 
@@ -153,12 +437,39 @@ document.addEventListener('DOMContentLoaded', function () {
         // Show typing indicator
         showTypingIndicator();
 
+<<<<<<< HEAD
         // Simulate bot response
         setTimeout(() => {
             hideTypingIndicator();
             const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
             addMessage(randomResponse, 'bot');
         }, 1000 + Math.random() * 1000);
+=======
+        try {
+            // Call RAG API
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await response.json();
+            hideTypingIndicator();
+
+            if (data.success) {
+                addMessage(data.response, 'bot');
+            } else {
+                // Error response
+                addMessage(data.message || '죄송합니다. 응답을 생성하는 중 오류가 발생했습니다.', 'bot');
+            }
+        } catch (error) {
+            console.error('Chat API 오류:', error);
+            hideTypingIndicator();
+            addMessage('죄송합니다. 서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.', 'bot');
+        }
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     }
 
     /**
@@ -182,7 +493,11 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         ` : `
             <div class="message bot-message">
+<<<<<<< HEAD
                 <div class="message-avatar">🤖</div>
+=======
+                <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
                 <div class="message-content">
                     <div class="message-bubble">
                         <p>${escapeHtml(text)}</p>
@@ -224,7 +539,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function showTypingIndicator() {
         const typingHTML = `
             <div class="message bot-message" id="typing-indicator">
+<<<<<<< HEAD
                 <div class="message-avatar">🤖</div>
+=======
+                <div class="message-avatar"><img src="/static/images/icon.jpg" alt="Bot"></div>
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
                 <div class="message-content">
                     <div class="typing-indicator">
                         <span></span>

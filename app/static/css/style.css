@@ -727,6 +727,44 @@ body {
 }
 
 /* Recent Chats */
+<<<<<<< HEAD
+=======
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-header .section-title {
+    margin-bottom: 0;
+}
+
+.new-chat-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent-primary);
+    background-color: var(--accent-light);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.new-chat-btn:hover {
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+.new-chat-btn svg {
+    flex-shrink: 0;
+}
+
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 .recent-chats {
     display: flex;
     flex-direction: column;
@@ -747,6 +785,14 @@ body {
     background-color: var(--bg-tertiary);
 }
 
+<<<<<<< HEAD
+=======
+.chat-item.active {
+    background-color: var(--accent-light);
+    border-left: 3px solid var(--accent-primary);
+}
+
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 .chat-icon {
     font-size: 16px;
 }
@@ -767,6 +813,34 @@ body {
     color: var(--text-tertiary);
 }
 
+<<<<<<< HEAD
+=======
+.chat-delete-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.chat-item:hover .chat-delete-btn {
+    display: flex;
+}
+
+.chat-delete-btn:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 6px;

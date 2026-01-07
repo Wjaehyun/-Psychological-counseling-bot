@@ -144,6 +144,88 @@ class DatabaseManager:
             ChatMessage.session_id == session_id
         ).order_by(ChatMessage.created_at).all()
     
+<<<<<<< HEAD
+=======
+    def get_user_recent_sessions(self, user_id: int, limit: int = 5) -> List[Dict]:
+        """
+        사용자의 최근 채팅 세션 목록 조회
+        세션의 첫 번째 user 메시지를 제목으로 사용
+        
+        Args:
+            user_id: 사용자 ID
+            limit: 반환할 세션 수 (기본 5개)
+            
+        Returns:
+            세션 목록 (id, title, date, started_at)
+        """
+        from datetime import datetime, timedelta
+        
+        # 사용자의 최근 세션 조회 (최신순)
+        sessions = self.session.query(ChatSession).filter(
+            ChatSession.user_id == user_id
+        ).order_by(ChatSession.started_at.desc()).limit(limit).all()
+        
+        result = []
+        today = datetime.utcnow().date()
+        yesterday = today - timedelta(days=1)
+        
+        for chat_session in sessions:
+            # 첫 번째 user 메시지를 제목으로 사용
+            first_message = self.session.query(ChatMessage).filter(
+                ChatMessage.session_id == chat_session.id,
+                ChatMessage.role == "user"
+            ).order_by(ChatMessage.created_at).first()
+            
+            if first_message:
+                # 제목: 첫 메시지를 20자로 자르고 "..."
+                title = first_message.content[:20]
+                if len(first_message.content) > 20:
+                    title += "..."
+            else:
+                title = "새 대화"
+            
+            # 날짜 포맷팅
+            session_date = chat_session.started_at.date()
+            if session_date == today:
+                date_str = "오늘"
+            elif session_date == yesterday:
+                date_str = "어제"
+            else:
+                date_str = chat_session.started_at.strftime("%m월 %d일")
+            
+            result.append({
+                "id": chat_session.id,
+                "title": title,
+                "date": date_str,
+                "started_at": chat_session.started_at.isoformat()
+            })
+        
+        return result
+    
+    def delete_chat_session(self, session_id: int) -> bool:
+        """
+        채팅 세션 삭제 (관련 메시지도 함께 삭제)
+        
+        Args:
+            session_id: 삭제할 세션 ID
+            
+        Returns:
+            삭제 성공 여부
+        """
+        # 먼저 해당 세션의 메시지들 삭제
+        self.session.query(ChatMessage).filter(
+            ChatMessage.session_id == session_id
+        ).delete()
+        
+        # 세션 삭제
+        self.session.query(ChatSession).filter(
+            ChatSession.id == session_id
+        ).delete()
+        
+        self.commit()
+        return True
+    
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     # -------------------------------------------------------------
     # Counseling Data CRUD
     # -------------------------------------------------------------

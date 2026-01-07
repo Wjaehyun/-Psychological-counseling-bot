@@ -46,6 +46,13 @@ chroma_db/
 data/vector_store/
 *.index
 
+<<<<<<< HEAD
+=======
+# Database
+*.db
+*.sqlite3
+
+>>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 # Data (큰 파일은 Git에서 제외)
 data/raw/*.csv
 data/raw/*.json
