@@ -2,65 +2,17 @@
 
 ![header](https://capsule-render.vercel.app/api?type=waving&height=190&text=따뜻한%20AI%20심리상담%20챗봇,%20상담해☀️&fontSize=52&fontColor=ffffff&color=gradient&customColorList=0:FFF1C1,50:FAD7A0,100:F6B26B&gradientDirection=diagonal)
 
-
 <p align="center">
-  <img src="app/static/images/icon.jpg" width="100" />
+  <img src="images/icon4.jpg" width="400" />
 </p>
 
 <br>
 
-## 📌 프로젝트 개요
-
-✅ 최근 AI 기술의 발전과 함께, 정서적 지원과 심리 상담 영역에서도 **대화형 인공지능을 활용하려는 시도**가 빠르게 확산되고 있습니다.  
-AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 인식하고 정서적 위로를 제공하는 방향**으로 발전하고 있으며, 이미 국내외에서는 AI 기반 심리상담 서비스가 **정서 관리 및 자기 돌봄(Self-care) 도구**로 활용되고 있습니다.
-
-✅ 본 프로젝트는 **심리 상담 대화 데이터**를 기반으로 한 **RAG(Retrieval-Augmented Generation) 기반 심리상담 챗봇**을 구현하는 것을 목표로 합니다.  
-기존 규칙 기반 혹은 단순 프롬프트 중심 챗봇의 한계를 넘어, 실제 상담 사례(텍스트 + 라벨)를 구조화·임베딩하여 **유사 상담 맥락을 검색**하고, 이를 바탕으로 **보다 안전하고 맥락적인 상담 응답**을 생성합니다.  
-본 시스템은 진단이나 치료를 대체하지 않으며, 사용자의 발화 흐름을 바탕으로 **우울감·불안 등 정서 상태를 간단한 심리 척도 형태로 추정**합니다.
-
-✅ 본 프로젝트는 이러한 흐름 속에서, 공감과 위로의 메시지와 함께 **일상에서 실천 가능한 간단한 정서 완화 방법** (예: 심호흡, 잠시 산책하기, 휴식 권유 등)을 제안하는 **초기 정서적 지원 및 자기 이해 보조 도구**로서의 역할을 지향합니다.  
-이를 통해 사용자가 자신의 감정 상태를 인식하고, 부담 없이 감정을 정리할 수 있도록 돕는 것을 목표로 합니다.
-
-<table align="center" width="100%">
-  <!-- 이미지 행 -->
-  <tr>
-    <td align="center">
-      <img src="images/news1.png" width="260"/>
-    </td>
-    <td align="center">
-      <img src="images/news2.png" width="260"/>
-    </td>
-    <td align="center">
-      <img src="images/news3.png" width="260"/>
-    </td>
-  </tr>
-
-  <!-- 캡션 행 -->
-  <tr>
-    <td align="center">
-      <div style="margin-top:12px; font-size:13px;">
-        <b>① AI 상담 응답 사례</b>
-      </div>
-    </td>
-    <td align="center">
-      <div style="margin-top:12px; font-size:13px;">
-        <b>② 멘탈케어 산업 확산 기사</b>
-      </div>
-    </td>
-    <td align="center">
-      <div style="margin-top:12px; font-size:13px;">
-        <b>③ AI 심리상담 서비스 사례</b>
-      </div>
-    </td>
-  </tr>
-</table>
-
-
-</br>
-
 ---
+
 <br>
-<h2>👥 팀 구성 및 역할 분담</h2>
+
+<h2>1️⃣ 팀 구성 및 역할 분담</h2>
 <p style="margin-bottom: 10px;">
   <strong>Team 수도</strong></p>
 <p style="margin-top: 0; color: #666;">
@@ -134,9 +86,64 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 <br>
 
 ---
+
 <br>
 
-## 🎯 프로젝트 목표
+## 2️⃣ 프로젝트 주제 및 주제 설명 및 선정 이유
+
+### 📌 프로젝트 개요
+
+✅ 최근 AI 기술의 발전과 함께, 정서적 지원과 심리 상담 영역에서도 **대화형 인공지능을 활용하려는 시도**가 빠르게 확산되고 있습니다.  
+AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 인식하고 정서적 위로를 제공하는 방향**으로 발전하고 있으며, 이미 국내외에서는 AI 기반 심리상담 서비스가 **정서 관리 및 자기 돌봄(Self-care) 도구**로 활용되고 있습니다.
+
+✅ 본 프로젝트는 **심리 상담 대화 데이터**를 기반으로 한 **RAG(Retrieval-Augmented Generation) 기반 심리상담 챗봇**을 구현하는 것을 목표로 합니다.  
+기존 규칙 기반 혹은 단순 프롬프트 중심 챗봇의 한계를 넘어, 실제 상담 사례(텍스트 + 라벨)를 구조화·임베딩하여 **유사 상담 맥락을 검색**하고, 이를 바탕으로 **보다 안전하고 맥락적인 상담 응답**을 생성합니다.  
+본 시스템은 진단이나 치료를 대체하지 않으며, 사용자의 발화 흐름을 바탕으로 **우울감·불안 등 정서 상태를 간단한 심리 척도 형태로 추정**합니다.
+
+✅ 본 프로젝트는 이러한 흐름 속에서, 공감과 위로의 메시지와 함께 **일상에서 실천 가능한 간단한 정서 완화 방법** (예: 심호흡, 잠시 산책하기, 휴식 권유 등)을 제안하는 **초기 정서적 지원 및 자기 이해 보조 도구**로서의 역할을 지향합니다.  
+이를 통해 사용자가 자신의 감정 상태를 인식하고, 부담 없이 감정을 정리할 수 있도록 돕는 것을 목표로 합니다.
+
+<table align="center" width="100%">
+  <!-- 이미지 행 -->
+  <tr>
+    <td align="center">
+      <img src="images/news1.png" width="260"/>
+    </td>
+    <td align="center">
+      <img src="images/news2.png" width="260"/>
+    </td>
+    <td align="center">
+      <img src="images/news3.png" width="260"/>
+    </td>
+  </tr>
+
+  <!-- 캡션 행 -->
+  <tr>
+    <td align="center">
+      <div style="margin-top:12px; font-size:13px;">
+        <b>① AI 상담 응답 사례</b>
+      </div>
+    </td>
+    <td align="center">
+      <div style="margin-top:12px; font-size:13px;">
+        <b>② 멘탈케어 산업 확산 기사</b>
+      </div>
+    </td>
+    <td align="center">
+      <div style="margin-top:12px; font-size:13px;">
+        <b>③ AI 심리상담 서비스 사례</b>
+      </div>
+    </td>
+  </tr>
+</table>
+
+</br>
+
+---
+
+<br>
+
+### 🎯 프로젝트 목표
 
 * 📖 실제 심리 상담 데이터를 기반으로 한 **RAG 파이프라인 구축**
 * 🧩 발화 단위 임베딩을 통한 **맥락 기반 상담 응답 생성**
@@ -148,7 +155,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 ---
 <br>
 
-## 전체 흐름 요약
+### 전체 흐름 요약
 
 1. 상담 데이터(txt/json) 수집 및 전처리
 2. 발화 단위 청킹 및 메타데이터 정리
@@ -161,32 +168,32 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 ---
 <br>
 
-## 🛠 Tech Stack
+### 🛠 Tech Stack
 
-### 🔧 Backend / RAG
+#### 🔧 Backend / RAG
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge)
 ![OpenAI](https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white)
 
-### 🧠 Vector Search
+#### 🧠 Vector Search
 
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
 ![OpenAI Embedding](https://img.shields.io/badge/OpenAI_Embedding-412991?style=for-the-badge&logo=openai&logoColor=white)
 
 
-### 💾 Database
+#### 💾 Database
 
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
 
 
-### 🖥️ Frontend
+#### 🖥️ Frontend
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 
-### ⚙️ Dev Environment
+#### ⚙️ Dev Environment
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![venv](https://img.shields.io/badge/venv-181717?style=for-the-badge&logo=python&logoColor=white)
@@ -198,7 +205,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 ---
 <br>
 
-## 📁 프로젝트 폴더 구조
+## 3️⃣ 프로젝트 디렉토리 및 파일 구조 📁
 </div>
 
 ```plaintext
@@ -231,11 +238,12 @@ SKN21-3rd-3Team/
 ---
 <br>
 
-## 🔍 System & Data Overview
+## 4️⃣ 수집 데이터 설명
+### 🔍 System & Data Overview
 
 본 섹션은 아래에 이어지는 상세 실험·설계 설명에 앞서, 본 프로젝트의 **데이터 구성, 처리 흐름, 챗봇 동작 방식, 안전 설계, 확장 방향**을 한눈에 요약합니다.
 
-## 📊 데이터 개요
+### 📊 데이터 개요
 
 * **데이터 출처**: AI Hub 심리상담 데이터셋
 * **카테고리**: 우울(DEPRESSION), 불안(ANXIETY), 중독(ADDICTION), 일반(NORMAL)
@@ -244,7 +252,7 @@ SKN21-3rd-3Team/
 
 > 상세 데이터 구조 및 컬럼 정의는 **1️⃣ Data & Baseline Setup** 섹션에서 설명합니다.
 
-## 🧠 데이터 전처리 & 임베딩 개요
+### 🧠 데이터 전처리 & 임베딩 개요
 
 * txt 파일에서 `상담사 / 내담자` 발화를 기준으로 발화 단위 분리
 * json 파일에서 연령, 성별, 상담 카테고리, 심리 지표(우울·불안·중독 등) 추출
@@ -253,18 +261,7 @@ SKN21-3rd-3Team/
 
 > 핵심 원칙: **구조화 데이터(SQLite)** 와 **의미 기반 검색 데이터(ChromaDB)** 를 분리하여 관리
 
-## 💬 챗봇 동작 방식 요약
-
-1. 사용자 메시지 입력
-2. 대화 기록 및 세션 정보 DB 저장
-3. Vector DB에서 유사 상담 발화 검색
-4. 검색 결과를 컨텍스트로 LLM 호출
-5. 공감·위로 중심의 응답 생성 및 반환
-6. 정서 위험 신호 감지 시 안전 안내 로직 활성화
-
-> Retriever, RAG Chain, 응답 생성 로직에 대한 상세 설명은 **4️⃣ Retriever & RAG Baseline** 섹션을 참고합니다.
-
-## ⚠️ 윤리 및 안전 설계 개요
+### ⚠️ 윤리 및 안전 설계 개요
 
 * 본 시스템은 **의료·심리 진단 도구가 아님**
 * 자해·자살 등 고위험 키워드 감지 시:
@@ -274,7 +271,7 @@ SKN21-3rd-3Team/
 
 > 안전 설계 및 스크리닝 로직은 **6️⃣ Safety & Screening Baseline** 섹션에서 상세히 다룹니다.
 
-## 📌 향후 확장 방향 (요약)
+### 📌 향후 확장 방향 (요약)
 
 * 상담 세션 시계열 기반 위험도 변화 추적
 * 감정·정서 변화 추이 시각화
@@ -286,7 +283,7 @@ SKN21-3rd-3Team/
 
 > 확장 아이디어에 대한 배경 및 근거는 **Future Work** 관련 문단에서 추가 설명될 수 있습니다.
 
-## 📄 참고 문서
+### 📄 참고 문서
 
 * `architecture.md` – 시스템 아키텍처
 * `DATABASE_DESIGN.md` – DB/ERD 설계
@@ -352,6 +349,7 @@ SKN21-3rd-3Team/
 ---
 <br>
 
+## 데이터 베이스 테이블 설명
 ## 3️⃣ Database & Vector Store Baseline
 
 - **이중 DB 구조**
@@ -372,6 +370,7 @@ SKN21-3rd-3Team/
 ---
 <br>
 
+## 6. Application의 주요 기능
 ## 4️⃣ Retriever & RAG Baseline
 
 - **Retriever 구성**
@@ -414,7 +413,8 @@ SKN21-3rd-3Team/
 ---
 <br>
 
-## 7️⃣ Final Summary & Key Takeaways
+## 7️⃣ Final Summary ## 7.회고
+Final Summary & Key Takeaways
 
 - 상담 원문(txt)과 라벨(json)을 결합하여 **구조화된 상담 데이터셋**을 구성
 - 발화 단위 청킹 및 벡터화로 **유사 상담 맥락 검색** 가능
