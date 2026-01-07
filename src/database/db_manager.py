@@ -144,8 +144,6 @@ class DatabaseManager:
             ChatMessage.session_id == session_id
         ).order_by(ChatMessage.created_at).all()
     
-<<<<<<< HEAD
-=======
     def get_user_recent_sessions(self, user_id: int, limit: int = 5) -> List[Dict]:
         """
         사용자의 최근 채팅 세션 목록 조회
@@ -225,7 +223,6 @@ class DatabaseManager:
         self.commit()
         return True
     
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     # -------------------------------------------------------------
     # Counseling Data CRUD
     # -------------------------------------------------------------

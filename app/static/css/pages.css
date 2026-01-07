@@ -404,14 +404,9 @@
    ======================================== */
 
 .survey-container {
-<<<<<<< HEAD
-    max-width: 700px;
-    margin: 0 auto;
-=======
     max-width: 600px;
     margin: 0 auto;
     padding: 0 16px;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 }
 
 /* Survey Intro */
@@ -552,10 +547,7 @@
 .answer-text {
     font-size: 15px;
     font-weight: 500;
-<<<<<<< HEAD
-=======
     color: var(--text-primary);
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 }
 
 /* Survey Navigation */
@@ -569,17 +561,11 @@
 .result-card {
     background-color: var(--bg-secondary);
     border-radius: var(--radius-xl);
-<<<<<<< HEAD
-    padding: 48px;
-    border: 1px solid var(--border-color);
-    text-align: center;
-=======
     padding: 32px 24px;
     border: 1px solid var(--border-color);
     text-align: center;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 }
 
 .result-header {
@@ -602,27 +588,14 @@
 }
 
 .score-circle {
-<<<<<<< HEAD
-    width: 140px;
-    height: 140px;
-=======
     width: 120px;
     height: 120px;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-<<<<<<< HEAD
-    margin: 0 auto 16px;
-    color: white;
-}
-
-.score-value {
-    font-size: 48px;
-=======
     margin: 0 auto 12px;
     color: white;
     transition: background 0.3s ease;
@@ -647,17 +620,12 @@
 
 .score-value {
     font-size: 40px;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     font-weight: 700;
     line-height: 1;
 }
 
 .score-label {
-<<<<<<< HEAD
-    font-size: 16px;
-=======
     font-size: 14px;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 }
 
 .score-desc {
@@ -670,13 +638,8 @@
 .result-details {
     background-color: var(--bg-primary);
     border-radius: var(--radius-lg);
-<<<<<<< HEAD
-    padding: 24px;
-    margin-bottom: 32px;
-=======
     padding: 16px;
     margin-bottom: 20px;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     text-align: left;
 }
 
@@ -722,13 +685,8 @@
 .result-message {
     background-color: var(--accent-light);
     border-radius: var(--radius-lg);
-<<<<<<< HEAD
-    padding: 24px;
-    margin-bottom: 32px;
-=======
     padding: 16px;
     margin-bottom: 20px;
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
     text-align: left;
 }
 

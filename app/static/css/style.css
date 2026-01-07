@@ -727,8 +727,6 @@ body {
 }
 
 /* Recent Chats */
-<<<<<<< HEAD
-=======
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -764,7 +762,6 @@ body {
     flex-shrink: 0;
 }
 
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 .recent-chats {
     display: flex;
     flex-direction: column;
@@ -785,14 +782,11 @@ body {
     background-color: var(--bg-tertiary);
 }
 
-<<<<<<< HEAD
-=======
 .chat-item.active {
     background-color: var(--accent-light);
     border-left: 3px solid var(--accent-primary);
 }
 
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 .chat-icon {
     font-size: 16px;
 }
@@ -813,8 +807,6 @@ body {
     color: var(--text-tertiary);
 }
 
-<<<<<<< HEAD
-=======
 .chat-delete-btn {
     display: none;
     align-items: center;
@@ -840,7 +832,6 @@ body {
     color: #ef4444;
 }
 
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 6px;

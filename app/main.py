@@ -16,10 +16,6 @@ from datetime import datetime
 import bcrypt
 import sqlite3
 import os
-<<<<<<< HEAD
-from pathlib import Path
-
-=======
 import sys
 from pathlib import Path
 
@@ -36,7 +32,6 @@ except ImportError as e:
     print(f"[Warning] RAG 시스템 로드 실패: {e}")
     RAG_AVAILABLE = False
 
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 # -------------------------------------------------------------
 # Flask App Configuration
 # -------------------------------------------------------------
@@ -107,8 +102,6 @@ def init_database():
 # 앱 시작 시 데이터베이스 초기화
 init_database()
 
-<<<<<<< HEAD
-=======
 # RAG 시스템 초기화
 rag_chain = None
 db_manager = None
@@ -124,7 +117,6 @@ if RAG_AVAILABLE:
 else:
     print("[Warning] RAG 모듈을 사용할 수 없습니다. 데모 모드로 실행합니다.")
 
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 
 # =============================================================
 # Page Routes
@@ -470,8 +462,6 @@ def api_session():
 
 
 # =============================================================
-<<<<<<< HEAD
-=======
 # Recent Chats API
 # =============================================================
 
@@ -771,28 +761,12 @@ def api_switch_session():
 
 
 # =============================================================
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 # Chat & Survey API Routes
 # =============================================================
 
 @app.route('/api/chat', methods=['POST'])
 def api_chat():
     """채팅 API - RAG 시스템 연동"""
-<<<<<<< HEAD
-    data = request.get_json()
-    message = data.get('message')
-    
-    # TODO: RAG 시스템 연동
-    # response = rag_system.generate_response(message)
-    
-    # Demo response
-    response = "안녕하세요! 심리 상담 AI입니다. 무엇을 도와드릴까요?"
-    
-    return jsonify({
-        'success': True,
-        'response': response
-    })
-=======
     # 로그인 확인
     if 'user' not in session:
         return jsonify({
@@ -860,7 +834,6 @@ def api_chat():
             'message': '죄송합니다. 응답 생성 중 오류가 발생했습니다.',
             'error': str(e)
         }), 500
->>>>>>> 9c39686aa3c4ad77a6cab5476e9547e5f8f8af8d
 
 
 @app.route('/api/survey', methods=['POST'])
