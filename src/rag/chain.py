@@ -72,13 +72,27 @@ class RAGChain:
         # Input: {..., rewritten_query} -> Output: source_docs (List), context (Str)
         def retrieve_and_format(x):
             docs = retriever_func(query=x["rewritten_query"])
+            
+            is_low_similarity = False
+            
+            # [유사도 점수 기반 경고]
+            # 유사도(Similarity) <= 0.65 인 경우 경고 (Distance >= 0.65)
+            if docs:
+                first_dist = docs[0].get("distance")
+                if first_dist is not None and first_dist >= 0.65:
+                    print("[Warning] 데이터 내에 유사한 정보가 없어서 임의의 내용을 출력 중입니다.")
+                    is_low_similarity = True
+            else:
+                 print("[Warning] 데이터 내에 유사한 정보가 없어서 임의의 내용을 출력 중입니다.")
+                 is_low_similarity = True
+
             for i, doc in enumerate(docs):
                 dist = doc.get("distance")
                 if dist is not None:
                     print(f"[Retrieval] Doc {i+1} distance: {dist:.4f}")
                 else:
                     print(f"[Retrieval] Doc {i+1} distance: None")
-            return {"source_docs": docs, "context": format_sources(docs)}
+            return {"source_docs": docs, "context": format_sources(docs), "is_low_similarity": is_low_similarity}
 
         retrieve_step = RunnablePassthrough.assign(
             **{
@@ -86,17 +100,23 @@ class RAGChain:
             }
         ) | RunnablePassthrough.assign(
             source_docs=lambda x: x["data"]["source_docs"],
-            context=lambda x: x["data"]["context"]
+            context=lambda x: x["data"]["context"],
+            is_low_similarity=lambda x: x["data"]["is_low_similarity"]
         )
         
         # 3. 답변 생성 (Answer)
         # Input: {..., context, history_text, rewritten_query} -> Output: answer (최종 답변)
-        answer_step = RunnablePassthrough.assign(
-            answer=lambda x: answer_chain.invoke({
+        def conditional_answer(x):
+            if x.get("is_low_similarity", False):
+                return "제공된 문서에서 유사한 내용을 찾을 수 없습니다. 다른 질문을 부탁드립니다."
+            return answer_chain.invoke({
                 "context": x["context"],
                 "history": x["history_text"],
                 "query": x["rewritten_query"] 
             })
+            
+        answer_step = RunnablePassthrough.assign(
+            answer=lambda x: conditional_answer(x)
         )
         
         # Pipeline Chain
