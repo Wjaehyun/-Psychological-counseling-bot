@@ -172,10 +172,8 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
 ![OpenAI Embedding](https://img.shields.io/badge/OpenAI_Embedding-412991?style=for-the-badge&logo=openai&logoColor=white)
 
-
 #### 💾 Database
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
-
 
 #### 🖥️ Frontend
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -198,22 +196,34 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 ```plaintext
 SKN21-3rd-3Team/
 ├── data/                       
-│   └── raw/                    # 원본 심리상담 데이터(txt / json)
+│   └── raw/                       # 원본 심리상담 데이터(txt / json)
 |
-├── src/                        # RAG · 데이터 처리 로직
-│   ├── data/                   # 데이터 전처리 및 DB 적재 파이프라인
-│   ├── database/               # ChromaDB 스키마 및 DB 관리
-│   └── rag/                    # RAG 응답 생성 로직 (Retriever · Chain)
+├── src/                       
+│   ├── data/                   
+│   |    ├── preprocess_data.py    # 상담 데이터 전처리
+│   |    ├── embed_to_vectordb.py  # 전처리 데이터 임베딩 및 ChromaDB 저장
+│   |    └── vector_loader.py      # VectorDB 로드 및 컬렉션 선택
+|   |
+│   ├── database/               
+│   |    ├── vector_store.py       # ChromaDB 래퍼 및 검색 인터페이스
+│   |    ├── database_schema.py    # 데이터 구조 정의
+│   |    └── db_manager.py         # DB 접근 및 관리 로직
+|   |
+│   └── rag/                    
+│       ├── rewrite.py             # 대화 히스토리 기반 쿼리 재작성
+│       ├── retriever.py           # 유사 상담 사례 검색
+│       ├── answer.py              # 답변 생성 및 후처리
+│       └── chain.py               # RAG 전체 흐름 제어
 |
-├── app/                        # Flask 기반 웹 애플리케이션
-│   ├── main.py                 # Flask 엔트리포인트
-│   ├── templates/              # HTML 템플릿
-│   └── static/                 # 정적 파일
+├── app/                        
+│   ├── main.py                    # Flask 엔트리포인트
+│   ├── templates/                 # HTML 템플릿
+│   └── static/                    # 정적 파일
 |
-├── config/                     # 설정 파일
-├── docs/                       # 설계 문서 및 가이드
-├── images/                     # README / 발표용 이미지
-├── tests/                      # 테스트 코드
+├── config/                        # 설정 파일
+├── docs/                          # 설계 문서 및 가이드
+├── images/                        # README / 발표용 이미지
+├── tests/                         # 테스트 코드
 │
 ├── .gitignore
 ├── requirements.txt
@@ -322,20 +332,30 @@ SKN21-3rd-3Team/
 <br>
 
 ## 5️⃣ 데이터 베이스 테이블 설명
-### Database & Vector Store
+### Database (ChromaDB)
 
-#### Vector Store + File Storage 구조
-- ChromaDB: 임베딩 벡터 저장 및 유사도 검색
-- File Storage (JSON/JSONL): 상담 세션, 발화 로그, 사용자 상태 등 구조화/로그 데이터는 파일로 저장
+- 본 프로젝트에서는 의미 기반 검색(RAG)을 위해 **ChromaDB(Vector Database)** 를 데이터베이스로 사용한다.
+- ChromaDB는 텍스트 데이터를 임베딩 벡터로 저장하고, 벡터 간 유사도를 기반으로 관련 상담 발화를 검색하는 역할을 수행한다.
+- 관계형 데이터베이스의 테이블 대신, ChromaDB의 **Collection 구조를 논리적인 데이터 테이블 단위로 정리**한다.
 
-### DB 구조 or Table 설명
-- ai피드백받았는데 이부분이 빈거같다고하셨슨!!!!!!!!!!!!!!!!!⚪⚫⚪⚫⚪
 
-####   🔹 Database Role 분리
+### ChromaDB Collection 구조
 
-| 구성 요소 | 역할 |
+| 구성 요소 | 설명 |
 |---|---|
-| ChromaDB | 발화 텍스트 임베딩 저장 및 의미 기반 유사 상담 검색 (RAG Retriever) |
+| id | 문서(발화) 단위의 고유 식별자 |
+| document | 상담 발화 원문 |
+| embedding | 발화 텍스트의 임베딩 벡터 |
+| metadata.session_id | 상담 세션 식별자 |
+| metadata.category | 심리 상태 분류 (DEPRESSION / ANXIETY / ADDICTION / NORMAL) |
+| metadata.speaker | 발화 주체 (user / assistant) |
+| metadata.turn_index | 세션 내 발화 순서 |
+
+
+### 데이터베이스 활용 방식
+- 상담 발화 텍스트를 전처리한 후 임베딩하여 ChromaDB에 저장한다.
+- 저장된 벡터는 유사도 검색을 통해 RAG Retriever 단계에서 활용된다.
+- metadata 정보는 검색 결과 필터링 및 상담 맥락 유지를 위해 사용된다.
 
 
 <br>
