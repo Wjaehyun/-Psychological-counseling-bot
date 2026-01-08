@@ -28,7 +28,7 @@
 <tr>
 <!-- 박수빈 -->
 <td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/박수빈.jpg"            width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="박수빈"/>
+    <img src="images/박수빈.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="박수빈"/>
     <h3 style="margin: 10px 0 5px 0;">박수빈</h3>
     <p style="margin: 5px 0;"> 대장 | ?? </p>
     <a bref="https://github.com/sbpark2930-ui">
@@ -78,7 +78,7 @@
     
 <!-- 조남웅 -->
 <td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/조남웅.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="조남웅"/>
+    <img src="images/장이선.jpg" width="180" height="180" style="border-radius: 50%; object-fit: cover;" alt="조남웅"/>
     <h3 style="margin: 10px 0 5px 0;">조남웅</h3>
     <p style="margin: 5px 0;"> ?? </p>
     <a bref="https://github.com/whskadnd">
