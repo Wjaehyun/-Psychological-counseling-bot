@@ -131,7 +131,8 @@ class RAGChain:
                 answer = answer.replace("[EXPERT_REFERRAL_NEEDED]", "").strip()
                 self._handle_expert_referral(session_id, answer)
                 if "상담" not in answer:
-                    answer += "\n\n(전문가와의 상담이 필요해 보여 전문 상담 센터 정보를 준비하고 있습니다.)"
+                    answer += "\n"
+                    # answer += "\n\n(전문가와의 상담이 필요해 보여 전문 상담 센터 정보를 준비하고 있습니다.)"
             
             # 5. Assistant 메시지 저장
             self.db.add_chat_message(session_id, "assistant", answer)
