@@ -358,19 +358,19 @@ SKN21-3rd-3Team/
 
 ## Chunking Strategy (Window Sliding)
   ### Overview
-    - 대화 맥락을 유지하면서 검색 단위를 과도하게 키우지 않기 위해, **현재 발화(Current Turn)**를 중심으로 이전(Pre-context) 및 다음(Post-context) 발화를 포함하는 방식으로 청크를 생성한다.
+  - 대화 맥락을 유지하면서 검색 단위를 과도하게 키우지 않기 위해, **현재 발화(Current Turn)**를 중심으로 이전(Pre-context) 및 다음(Post-context) 발화를 포함하는 방식으로 청크를 생성한다.
       * Method: Window Sliding
       * Center: Current Turn
       * Context: Pre-context + Post-context (총 3턴 구성)
-    - 예시:
+  - 예시:
       * (Context-1) 상담사: 요즘 기분이 좀 어떠세요?
       * (Current) 내담자: 계속 우울하고 잠도 잘 안 와요. (검색 중심)
       * (Context+1) 상담사: 불면증 때문에 많이 힘드시겠네요.
 
   ### Rationale
-    - Context awareness: 상담 데이터는 단일 발화만으로 의미가 부족한 경우가 많아, 앞뒤 문맥 포함이 필요하다.
-    - Retrieval quality: 상담사의 질문과 내담자의 응답이 함께 포함된 청크는 상황 정보가 풍부하여 유사 사례 검색에 유리하다.
-    - Token efficiency: 전체 세션 단위 임베딩 대비, 3턴 윈도우는 정보 밀도를 유지하면서도 컨텍스트 길이(토큰) 측면에서 효율적이다.
+   - Context awareness: 상담 데이터는 단일 발화만으로 의미가 부족한 경우가 많아, 앞뒤 문맥 포함이 필요하다.
+   - Retrieval quality: 상담사의 질문과 내담자의 응답이 함께 포함된 청크는 상황 정보가 풍부하여 유사 사례 검색에 유리하다.
+   - Token efficiency: 전체 세션 단위 임베딩 대비, 3턴 윈도우는 정보 밀도를 유지하면서도 컨텍스트 길이(토큰) 측면에서 효율적이다.
 
 <br>
 
