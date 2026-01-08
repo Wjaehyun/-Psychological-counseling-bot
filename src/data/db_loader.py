@@ -167,7 +167,7 @@ def _counseling_to_dict(c: CounselingData) -> Dict[str, Any]:
         'summary': c.summary,
         'source_file': c.source_file,
         'has_detailed_label': c.has_detailed_label,
-        'created_at': str(c.created_at) if c.created_at else None
+        'imported_at': str(c.imported_at) if c.imported_at else None
     }
 
 
