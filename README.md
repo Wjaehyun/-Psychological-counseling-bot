@@ -169,6 +169,11 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
   
 <br>
 
+### 모델 선정 배경
+- ??⚪⚪⚪⚪⚪⚫⚫⚫⚪⚪⚪⚫⚫
+
+<br>
+
 ### 전체 흐름 요약
 1. 상담 데이터(txt/json) 수집 및 전처리
 2. 발화 단위 청킹 및 메타데이터 정리
@@ -208,7 +213,7 @@ AI 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 �
 
 <br>
 
-## 3️⃣ 프로젝트 디렉토리 및 파일 구조 📁
+## 3️⃣ 📁프로젝트 디렉토리 및 파일 구조
 </div>
 
 ```plaintext
@@ -265,14 +270,17 @@ SKN21-3rd-3Team/
 * **카테고리**: 우울(DEPRESSION), 불안(ANXIETY), 중독(ADDICTION), 일반(NORMAL)
 * **형식**: txt(상담 원문 발화) + json(라벨 및 메타데이터)
 * **구조**: 상담 세션 단위 → 발화(paragraph) 단위 분리
-
 > 상세 데이터 구조 및 컬럼 정의는 **Data & Baseline Setup** 섹션에서 설명합니다.
+
+<br>
 
 ### 🧠 데이터 전처리 & 임베딩 개요
 
 * txt 파일에서 `상담사 / 내담자` 발화를 기준으로 발화 단위 분리
 * json 파일에서 연령, 성별, 상담 카테고리, 심리 지표(우울·불안·중독 등) 추출
 * 발화 텍스트만 임베딩하여 ChromaDB(Vector DB)에 저장
+
+<br>
 
 ### ⚠️ 윤리 및 안전 설계 개요
 
@@ -281,8 +289,9 @@ SKN21-3rd-3Team/
   - 즉각적인 주의 안내 메시지 제공
   - 전문 기관 또는 주변 도움을 권고하는 가이드 문구 출력
 * 모든 상담 데이터는 **익명화된 공개 데이터**만 사용
-
 > 안전 설계 및 스크리닝 로직은 **Safety & Screening Baseline** 섹션에서 상세히 다룹니다.
+
+<br>
 
 ### 📌 향후 확장 방향 (요약)
 
@@ -296,6 +305,8 @@ SKN21-3rd-3Team/
 
 > 확장 아이디어에 대한 배경 및 근거는 **Future Work** 관련 문단에서 추가 설명될 수 있습니다.
 
+<br>
+
 ### 📄 참고 문서
 
 * `architecture.md` – 시스템 아키텍처
@@ -305,6 +316,8 @@ SKN21-3rd-3Team/
 * `GUIDE_전처리.md` – 전처리 상세 가이드
 * `GUIDE_CRUD.md` – ChromaDB CRUD
 * `GUIDE_함수.md` – Vector DB 함수 정리
+
+<br>
 
 ### Data & Baseline Setup
 
@@ -323,6 +336,8 @@ SKN21-3rd-3Team/
   - `ANXIETY` (불안)
   - `ADDICTION` (중독)
   - `NORMAL` (일반)
+ 
+<br>
 
 ### Data Preprocessing & Chunking 검증
 
@@ -350,12 +365,80 @@ SKN21-3rd-3Team/
 <br>
 
 ## 5️⃣ 데이터 베이스 테이블 설명
+### 데이터베이스 설계 개요 (ERD; Entity Relationship Diagram)
+
+```mermaid
+erDiagram
+    users {
+        int id PK "자동 증가"
+        string username "사용자명"
+        string password_hash "암호화 비밀번호 (선택)"
+        datetime created_at "생성일시"
+        datetime last_login "마지막 로그인"
+    }
+    
+    chat_sessions {
+        int id PK "자동 증가"
+        int user_id FK "users.id"
+        datetime started_at "시작 시간"
+        datetime ended_at "종료 시간 (NULL 가능)"
+        string status "active/completed/referred"
+        json screening_result "증상 선별 결과"
+    }
+    
+    chat_messages {
+        int id PK "자동 증가"
+        int session_id FK "chat_sessions.id"
+        string role "user/assistant/system"
+        text content "메시지 내용"
+        datetime created_at "생성 시간"
+    }
+    
+    counseling_data {
+        int id PK "자동 증가"
+        string source_id UK "원본 ID (D012)"
+        string category "DEPRESSION/ANXIETY/ADDICTION/NORMAL"
+        int severity "0-3 심각도 (NULL 허용)"
+        text summary "상담 요약"
+        string source_file "원본 파일 경로"
+        string data_format "labeled/unlabeled"
+        bool has_detailed_label "상세 라벨 존재 여부"
+        json raw_metadata "원본 메타데이터"
+        datetime imported_at "임포트 시간"
+    }
+    
+    counseling_paragraphs {
+        int id PK "자동 증가"
+        int counseling_id FK "counseling_data.id"
+        int paragraph_index "단락 순서"
+        string speaker "상담사/내담자"
+        text content "발화 내용"
+        json labels "심리학적 라벨 (NULL 허용)"
+        string vector_id "ChromaDB 문서 ID"
+    }
+    
+    expert_referrals {
+        int id PK "자동 증가"
+        int session_id FK "chat_sessions.id (1:1)"
+        string severity_level "mild/moderate/severe/crisis"
+        text recommended_action "권장 조치"
+        datetime created_at "생성 시간"
+    }
+    
+    users ||--o{ chat_sessions : "1:N 보유"
+    chat_sessions ||--o{ chat_messages : "1:N 포함"
+    chat_sessions ||--o| expert_referrals : "1:0..1 연결"
+    counseling_data ||--o{ counseling_paragraphs : "1:N 포함"
+```
+<br>
+
 ### Database (ChromaDB)
 
 - 본 프로젝트에서는 의미 기반 검색(RAG)을 위해 **ChromaDB(Vector Database)** 를 데이터베이스로 사용한다.
 - ChromaDB는 텍스트 데이터를 임베딩 벡터로 저장하고, 벡터 간 유사도를 기반으로 관련 상담 발화를 검색하는 역할을 수행한다.
 - 관계형 데이터베이스의 테이블 대신, ChromaDB의 **Collection 구조를 논리적인 데이터 테이블 단위로 정리**한다.
 
+<br>
 
 ### ChromaDB Collection 구조
 
@@ -369,6 +452,7 @@ SKN21-3rd-3Team/
 | metadata.speaker | 발화 주체 (user / assistant) |
 | metadata.turn_index | 세션 내 발화 순서 |
 
+<br>
 
 ### 데이터베이스 활용 방식
 - 상담 발화 텍스트를 전처리한 후 임베딩하여 ChromaDB에 저장한다.
@@ -393,6 +477,8 @@ SKN21-3rd-3Team/
 6. 정서 위험 신호 감지 시 안전 안내 로직 활성화
 > Retriever, RAG Chain, 응답 생성 로직에 대한 상세 설명은 **Retriever & RAG Baseline** 섹션을 참고합니다.
 
+<br>
+
 ### Retriever & RAG Baseline
 
 - **Retriever 구성**
@@ -406,11 +492,15 @@ SKN21-3rd-3Team/
   4. 공감·위로 중심의 응답 생성
 - 단순 프롬프트 기반 챗봇과 달리, 실제 상담 사례를 근거로 응답을 생성하도록 설계되었습니다.
 
+<br>
+
 ### Limitations & Baseline 한계
 - 단일 발화 또는 짧은 입력만으로는 사용자의 전체 정서 상태를 정확히 파악하기 어려움
 - 데이터 분포상 고위험(자해/자살) 사례의 비중이 낮아, 위기 상황 대응에는 보수적인 설계가 필요함
 - 따라서 본 프로젝트는 **진단·치료 목적이 아닌**, 초기 정서적 지원과 자기 이해 보조에 초점을 둡니다.
-  
+- 
+<br>
+
 ### Safety & Screening Baseline
 - json 메타데이터에 포함된 심리 지표(우울/불안/중독 등)를 활용하여  
   **간단한 정서 상태 스크리닝**을 수행합니다.
@@ -432,8 +522,12 @@ SKN21-3rd-3Team/
 - RAG 기반 응답 생성으로 **맥락적·공감형 상담 응답** 제공
 - 본 프로젝트는 심리상담을 대체하지 않으며, 초기 정서적 지원과 자기 이해를 돕는 도구로 활용되는 것을 목표로 합니다.
 
+<br>
+
 ### ⚠️ 구현 도중 문제와 해결
 - ⚪⚫⚪⚫⚪⚪⚫⚪⚫⚪작성해야함
+
+<br>
 
 ### 📝 팀원 소감 (Team Retrospective)
 <br>
@@ -444,5 +538,5 @@ SKN21-3rd-3Team/
 | **손현우** | Test·Evaluation | 채워주세요. |
 | **우재현** | Prompt·Chain | 채워주세요. |
 | **이성진** | Data·Prompt | 챗봇. 누구나 만든다고. 그것도 아주 쉽게. 딸깍딸깍 몇 번으로. 이거 다 *소리다. 만들기야 쉽겠지. 지피티나 제미나이도 뚝닥. 하지만 '제대로' 만들었는지? 챗봇이 답변 잘하는지? 챗봇 답변 때문에 깊고 깊으며 깊은 빡침을 수도 없이 느꼈다. |
-| **장이선** | Data | 채워주세요. |
+| **장이선** | Data | 전처리랑 청킹을 맡았는데, 2차 프로젝트의 경험 덕에 어렵지 않게 했던 것 같습니다. 아무래도 이번 프로젝트에서 제일 어려웠던 것은 모델의 성능 개선이었던 것 같은데… 제가 할 수 있던 게 없어서 README 작성을 맡게 되었고, 평소 책을 잘 안 읽었더니 가독성이 너무 구린 결과물을 도출해낸 것 같아서 많이 아쉽습니다... 그리고 이것 또한 쉽지 않았고, 프로젝트에서 쉬운 것은 하나도 없다는 교훈을 얻었습니다. (쉽게 갈 생각을 한 건 아닙니다!!!🙅‍♀️🙅‍♀️) |
 | **조남웅** | Retriever | 채워주세요. |
