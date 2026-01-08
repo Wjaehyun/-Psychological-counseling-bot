@@ -108,7 +108,7 @@ class RAGChain:
         # Input: {..., context, history_text, rewritten_query} -> Output: answer (최종 답변)
         def conditional_answer(x):
             if x.get("is_low_similarity", False):
-                return "제공된 문서에서 유사한 내용을 찾을 수 없습니다. 다른 질문을 부탁드립니다."
+                return "해당 질문에는 답변을 드리기 어렵습니다. 다른 질문을 부탁드립니다."
             return answer_chain.invoke({
                 "context": x["context"],
                 "history": x["history_text"],
