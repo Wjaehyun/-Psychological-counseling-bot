@@ -18,7 +18,7 @@
 
 <br>
 
-<h2>1️⃣ 팀 구성 및 역할 분담</h2>
+<h1>1️⃣ 팀 구성 및 역할 분담</h1>
 <p style="margin-bottom: 10px;">
   <strong>Team 수도</strong></p>
 <p style="margin-top: 0; color: #666;">
@@ -116,13 +116,11 @@
 
 <br>
 
-## 2️⃣ 프로젝트 주제 및 주제 설명 및 선정 이유
-- 최근 AI 기술의 발전과 함께 정서적 지원과 심리 상담 영역에서도 **대화형 인공지능을 활용하려는 시도**가 빠르게 확산되고 있습니다.  
-AI 기반 심리상담 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 인식하고 정서적 공감적 반응을 제공하는 방향**으로 발전하고 있으며, 국내외에서는 이미 정서 관리 및 자기 돌봄(Self-care) 도구**로 활용되고 있습니다.
-
-- 이 서비스는 **심리 상담 대화 데이터**를 기반으로 한 RAG(Retrieval-Augmented Generation) 구조의 상담 챗봇을 구현을 목표로 합니다. 실제 상담 사례(텍스트 및 라벨 데이터)를 구조화하고 임베딩하여 유사 상담 맥락을 검색한 뒤 이를 바탕으로 보다 맥락적인 응답을 생성합니다. 사용자의 발화 흐름을 바탕으로 우울·불안 등 정서 상태를 참고 지표 수준에서 추정합니다.
-
-- 서비스는 공감과 위로 중심의 응답과 함께 **일상에서 실천 가능한 간단한 정서 완화 방법** (예: 심호흡, 잠시 산책하기, 휴식 권유 등)을 제안하는 **초기 정서적 지원 및 자기 이해 보조 도구**로서의 역할을 지향합니다. 이를 통해 사용자가 자신의 감정 상태를 인식하고, 부담 없이 감정을 정리할 수 있도록 돕는 것을 목표로 합니다.
+# 2️⃣ 프로젝트 주제 및 주제 설명 및 선정 이유
+  - 최근 AI 기술의 발전과 함께 정서적 지원과 심리 상담 영역에서도 **대화형 인공지능을 활용하려는 시도**가 빠르게 확산되고 있습니다.  
+  AI 기반 심리상담 챗봇은 단순한 질의응답을 넘어, **사용자의 감정 상태를 인식하고 정서적 공감적 반응을 제공하는 방향**으로 발전하고 있으며, 국내외에서는 이미 정서 관리 및 자기 돌봄(Self-care) 도구**로 활용되고 있습니다.
+  - 이 서비스는 **심리 상담 대화 데이터**를 기반으로 한 RAG(Retrieval-Augmented Generation) 구조의 상담 챗봇을 구현을 목표로 합니다. 실제 상담 사례(텍스트 및 라벨 데이터)를 구조화하고 임베딩하여 유사 상담 맥락을 검색한 뒤 이를 바탕으로 보다 맥락적인 응답을 생성합니다. 사용자의 발화 흐름을 바탕으로 우울·불안 등 정서 상태를 참고 지표 수준에서 추정합니다.
+  - 서비스는 공감과 위로 중심의 응답과 함께 **일상에서 실천 가능한 간단한 정서 완화 방법** (예: 심호흡, 잠시 산책하기, 휴식 권유 등)을 제안하는 **초기 정서적 지원 및 자기 이해 보조 도구**로서의 역할을 지향합니다. 이를 통해 사용자가 자신의 감정 상태를 인식하고, 부담 없이 감정을 정리할 수 있도록 돕는 것을 목표로 합니다.
 
 <table align="center" width="100%">
   <!-- 이미지 행 -->
@@ -160,7 +158,7 @@ AI 기반 심리상담 챗봇은 단순한 질의응답을 넘어, **사용자�
 
 <br>
 
-### 프로젝트 목표
+## 프로젝트 목표
 * 📖 실제 심리 상담 데이터를 기반으로 한 **RAG 파이프라인 구축**
 * 🧩 발화 단위 임베딩을 통한 **맥락 기반 상담 응답 생성**
 * 🚨 대화 중 위험 신호 감지 및 **전문가 연결 로직 설계**
@@ -169,84 +167,37 @@ AI 기반 심리상담 챗봇은 단순한 질의응답을 넘어, **사용자�
   
 <br>
 
-### 모델 선정 배경
-<table align="center" width="100%">
-  <tr>
-    <td align="center">
-      <img src="images/GPT-4o.png" width="260" />
-    </td>
-    <td align="center">
-      <img src="images/GPT-4.1.png" width="260" />
-    </td>
-    <td align="center">
-      <img src="images/GPT-5-nano.png" width="260" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><b>GPT-4o</b></td>
-    <td align="center"><b>GPT-4.1</b></td>
-    <td align="center"><b>GPT-5-nano</b></td>
-  </tr>
-</table>
-
-- OpenAI의 **GPT-4o** 모델을 적용하였다.
-  실시간 상호작용을 전제로 하는 챗봇 특성상, 응답의 정확도와 함께 **응답 지연이 최소화**되는지 여부를 기준으로 모델을 선정하였다.
+## 전체 흐름 요약
+  1. 상담 데이터(json) 수집 및 전처리
+  2. 발화 단위 청킹 및 메타데이터 정리
+  3. 발화 내용 임베딩 후 ChromaDB 저장
+  4. 사용자 질문 → 유사 상담 사례 검색
+  5. 검색 컨텍스트 + 사용자 질문 → LLM 응답 생성
+  6. 대화 기록 및 위험도 DB 저장
 
 <br>
 
-<table align="center" width="100%">
-  <tr>
-    <td align="center">
-      <img src="images/gpt-mix_dist.png" width="260" />
-    </td>
-    <td align="center">
-      <img src="images/gpt-mix_time.png" width="260" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><b>Doc Distance Comparison</b></td>
-    <td align="center"><b>Response Time Comparison</b></td>
-  </tr>
-</table>
-
-- 여러 모델을 비교한 결과, GPT-4o는 상담 맥락 이해와 응답 품질 측면에서 안정적인 성능을 유지하면서도 응답 속도가 가장 우수한 모델로 확인되었다.
-   일부 모델의 경우 응답 생성에 수십 초 이상 소요되는 사례가 발생하여, 실시간 상담 흐름 유지에 적합하지 않다고 판단하였다.
+## Tech Stack
+  ### 🔧 Backend / RAG
+  ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+  ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+  ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge)
+  ![OpenAI](https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white)
   
-> 이러한 이유로, 사용자 경험을 저해하지 않으면서도 충분한 상담 응답 품질을 제공할 수 있는 모델로 [OpenAI GPT-4o](https://platform.openai.com/docs/models/gpt-4o)를 최종 선정하였다.
-
-<br>
-
-### 전체 흐름 요약
-1. 상담 데이터(json) 수집 및 전처리
-2. 발화 단위 청킹 및 메타데이터 정리
-3. 발화 내용 임베딩 후 ChromaDB 저장
-4. 사용자 질문 → 유사 상담 사례 검색
-5. 검색 컨텍스트 + 사용자 질문 → LLM 응답 생성
-6. 대화 기록 및 위험도 DB 저장
-
-<br>
-
-### Tech Stack
-#### 🔧 Backend / RAG
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge)
-![OpenAI](https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white)
-
-#### 🧠 Vector Search
-![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
-![OpenAI Embedding](https://img.shields.io/badge/OpenAI_Embedding-412991?style=for-the-badge&logo=openai&logoColor=white)
-
-#### 💾 Database
-![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
-
-#### 🖥️ Frontend
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-
-#### ⚙️ Dev Environment
-![venv](https://img.shields.io/badge/venv-181717?style=for-the-badge&logo=python&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
+  ### 🧠 Vector Search
+  ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
+  ![OpenAI Embedding](https://img.shields.io/badge/OpenAI_Embedding-412991?style=for-the-badge&logo=openai&logoColor=white)
+  
+  ### 💾 Database
+  ![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=for-the-badge)
+  
+  ### 🖥️ Frontend
+  ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+  
+  ### ⚙️ Dev Environment
+  ![venv](https://img.shields.io/badge/venv-181717?style=for-the-badge&logo=python&logoColor=white)
+  ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+  ![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
 
 <br>
 
@@ -254,7 +205,7 @@ AI 기반 심리상담 챗봇은 단순한 질의응답을 넘어, **사용자�
 
 <br>
 
-## 3️⃣ 📁프로젝트 디렉토리 및 파일 구조
+# 3️⃣ 📁프로젝트 디렉토리 및 파일 구조
 </div>
 
 ```plaintext
@@ -300,28 +251,25 @@ SKN21-3rd-3Team/
 
 <br>
 
-## 4️⃣ 수집 데이터 설명
-### 🔍 System & Data Overview
-
-아래에 이어지는 상세 실험·설계 설명에 앞서, 이 프로젝트의 **데이터 구성, 처리 흐름, 챗봇 동작 방식, 안전 설계, 확장 방향**을 한눈에 요약합니다.
-
-### 📊 데이터 개요
-* **데이터 출처**: [AI Hub 심리상담 데이터셋](https://www.aihub.or.kr/aihubdata/data/view.do?pageIndex=1&currMenu=115&topMenu=100&srchOptnCnd=OPTNCND001&srchDetailCnd=DETAILCND001&srchOrder=ORDER001&srchPagePer=20&srchDataRealmCode=REALM006&aihubDataSe=data&dataSetSn=71806)
-* **카테고리**: 우울(DEPRESSION), 불안(ANXIETY), 중독(ADDICTION), 일반(NORMAL)
-* **형식**: json(상담 원문 발화 및 라벨, 메타데이터 ) 
-* **구조**: 상담 세션 단위 → 발화(paragraph) 단위 분리
-> 상세 데이터 구조 및 컬럼 정의는 **Data & Baseline Setup** 섹션에서 설명합니다.
+# 4️⃣ 수집 데이터 설명
+  
+## 📊 데이터 개요
+  * **데이터 출처**: [AI Hub 심리상담 데이터셋](https://www.aihub.or.kr/aihubdata/data/view.do?pageIndex=1&currMenu=115&topMenu=100&srchOptnCnd=OPTNCND001&srchDetailCnd=DETAILCND001&srchOrder=ORDER001&srchPagePer=20&srchDataRealmCode=REALM006&aihubDataSe=data&dataSetSn=71806)
+  * **카테고리**: 우울(DEPRESSION), 불안(ANXIETY), 중독(ADDICTION), 일반(NORMAL)
+  * **형식**: json(상담 원문 발화 및 라벨, 메타데이터 ) 
+  * **구조**: 상담 세션 단위 → 발화(paragraph) 단위 분리
+  > 상세 데이터 구조 및 컬럼 정의는 **Data & Baseline Setup** 섹션에서 설명합니다.
 
 <br>
 
-### 🧠 데이터 전처리 & 임베딩 개요
-* json 파일에서 `상담사 / 내담자` 발화를 기준으로 발화 단위 분리
-* json 파일에서 연령, 성별, 상담 카테고리, 심리 지표(우울·불안·중독 등) 추출
-* 발화 텍스트만 임베딩하여 ChromaDB(Vector DB)에 저장
-
+## 🧠 데이터 전처리 & 임베딩 개요
+  * json 파일에서 `상담사 / 내담자` 발화를 기준으로 발화 단위 분리
+  * json 파일에서 연령, 성별, 상담 카테고리, 심리 지표(우울·불안·중독 등) 추출
+  * 발화 텍스트만 임베딩하여 ChromaDB(Vector DB)에 저장
+    
 <br>
 
-### ⚠️ 윤리 및 안전 설계 개요
+## ⚠️ 윤리 및 안전 설계 개요
 * 심리상담 챗봇은 **의료·심리 진단 도구가 아님!**
 * 자해·자살 등 고위험 키워드 감지 시:
   - 즉각적인 주의 안내 메시지 제공
@@ -331,7 +279,7 @@ SKN21-3rd-3Team/
 
 <br>
 
-### 📌 향후 확장 방향 (요약)
+## 📌 향후 확장 방향 (요약)
 * 상담 세션 시계열 기반 위험도 변화 추적
 * 감정·정서 변화 추이 시각화
 * 멀티모달 입력(음성 → 텍스트) 확장
@@ -343,7 +291,7 @@ SKN21-3rd-3Team/
 
 <br>
 
-### 📄 참고 문서
+## 📄 참고 문서
 * `architecture.md` – 시스템 아키텍처
 * `DATABASE_DESIGN.md` – DB/ERD 설계
 * `DATA_ANALYSIS.md` – 데이터 분석 요약
@@ -354,20 +302,13 @@ SKN21-3rd-3Team/
 
 <br>
 
-### Data & Baseline Setup
+## Data & Baseline Setup
 - **데이터 구조**  
   AI Hub 심리상담 데이터셋을 기반으로, 다수의 상담 대화 기록과 해당 대화에 대한 라벨 및 메타데이터가 JSON 형식으로 구성되어 있습니다.  
   원본 데이터는 `data/raw/` 디렉토리에 저장되어 있으며, 전처리 과정에서 대화 단위로 재구성된  
   데이터가 생성됩니다.  
   전처리 이후의 데이터는 학습 및 실험에 활용되지만, 용량 및 라이선스 이슈로 인해 Git 저장소에는  
   포함하지 않습니다.
-
-  #### 🔹 `Original Dataset` — 원천 데이터 구조
-  
-  | 구분 | 파일 형식 | 설명 |
-  |---|---|---|
-  | 상담 대화 | `.json` | `상담사 :`, `내담자 :` 형식의 실제 상담 대화 원문 |
-  | 메타데이터 | `.json` | 연령, 성별, 상담 카테고리, 요약, 심리 지표(우울/불안/중독 등) |
 
 - **카테고리 구성**
   - `DEPRESSION` (우울)
@@ -377,7 +318,7 @@ SKN21-3rd-3Team/
  
 <br>
 
-### Data Preprocessing & Chunking 검증
+## Data Preprocessing & Chunking 검증
 
 - **전처리 목적**  
   비정형 상담 대화를 RAG 검색 및 응답 생성에 적합한 구조로 변환
@@ -387,7 +328,7 @@ SKN21-3rd-3Team/
   2. 발화 단위 데이터와 메타데이터 통합  
   3. DB 저장용 구조로 변환
 
-  #### 🔹 `Chunking Strategy` — 발화 단위 분리
+  ### 🔹 `Chunking Strategy` — 발화 단위 분리
   
   | 항목 | 설명 |
   |---|---|
@@ -398,71 +339,45 @@ SKN21-3rd-3Team/
 
 <br>
 
-### Data Preprocessing Strategy
+## Data Preprocessing Strategy
 심리상담 대화 데이터를 RAG 검색 및 응답 생성에 적합한 형태로 변환하기 위해, 파일 매칭·텍스트 정규화·화자 분리를 포함한 전처리 절차를 적용하였다.
 
-#### Data Matching & Loading
-
-  - File ID matching: 정규식 패턴 [DAXN]\d{3}을 기준으로 TXT(대화 원문)와 JSON(라벨/메타데이터) 파일을 매칭한다.
+  ### Data Matching & Loading
+    - File ID matching: 정규식 패턴 [DAXN]\d{3}을 기준으로 TXT(대화 원문)와 JSON(라벨/메타데이터) 파일을 매칭한다.
+    - Encoding fallback: 한글 깨짐 방지를 위해 utf-8-sig → utf-8 → cp949 순서로 디코딩을 시도한다.
   
-  - Encoding fallback: 한글 깨짐 방지를 위해 utf-8-sig → utf-8 → cp949 순서로 디코딩을 시도한다.
-
-
-
-#### Text Normalization
-
-  - RAG 검색 품질과 응답 생성을 안정화하기 위해, 데이터 내 특수 태그를 자연어 또는 일반화 토큰으로 정규화한다.
-
-    >@COUNSELOR → 상담사
-    >@NAME → 내담자
-    >@PLACE, @AGE 등 → [PLACE], [AGE] 형태로 일반화 토큰을 유지
+  ### Text Normalization
+    - RAG 검색 품질과 응답 생성을 안정화하기 위해, 데이터 내 특수 태그를 자연어 또는 일반화 토큰으로 정규화한다.
+      >@COUNSELOR → 상담사
+      >@NAME → 내담자
+      >@PLACE, @AGE 등 → [PLACE], [AGE] 형태로 일반화 토큰을 유지
+  
+  ### Speaker Segmentation
+    - 정규식(상담사|내담자) 기반으로 화자를 명확히 분리한다.
+    - 여러 줄로 이어지는 발화는 하나의 턴(Turn)으로 병합하여 대화 흐름이 끊기지 않도록 처리한다.
 
 <br>
 
-#### Speaker Segmentation
+## Chunking Strategy (Window Sliding)
+  ### Overview
+    - 대화 맥락을 유지하면서 검색 단위를 과도하게 키우지 않기 위해, **현재 발화(Current Turn)**를 중심으로 이전(Pre-context) 및 다음(Post-context) 발화를 포함하는 방식으로 청크를 생성한다.
+      * Method: Window Sliding
+      * Center: Current Turn
+      * Context: Pre-context + Post-context (총 3턴 구성)
+    - 예시:
+      * (Context-1) 상담사: 요즘 기분이 좀 어떠세요?
+      * (Current) 내담자: 계속 우울하고 잠도 잘 안 와요. (검색 중심)
+      * (Context+1) 상담사: 불면증 때문에 많이 힘드시겠네요.
 
-  - 정규식(상담사|내담자) 기반으로 화자를 명확히 분리한다.
-  
-  - 여러 줄로 이어지는 발화는 하나의 턴(Turn)으로 병합하여 대화 흐름이 끊기지 않도록 처리한다.
-
-<br>
-
-### Chunking Strategy (Window Sliding)
-#### Overview
-
-  - 대화 맥락을 유지하면서 검색 단위를 과도하게 키우지 않기 위해, **현재 발화(Current Turn)**를 중심으로 이전(Pre-context) 및 다음(Post-context) 발화를 포함하는 방식으로 청크를 생성한다.
-    * Method: Window Sliding
-    
-    * Center: Current Turn
-    
-    * Context: Pre-context + Post-context (총 3턴 구성)
-
-  - 예시:
-  
-    * (Context-1) 상담사: 요즘 기분이 좀 어떠세요?
-    
-    * (Current) 내담자: 계속 우울하고 잠도 잘 안 와요. (검색 중심)
-    
-    * (Context+1) 상담사: 불면증 때문에 많이 힘드시겠네요.
-   
-<br>
-
-#### Rationale
-
-  - Context awareness: 상담 데이터는 단일 발화만으로 의미가 부족한 경우가 많아, 앞뒤 문맥 포함이 필요하다.
-  
-  - Retrieval quality: 상담사의 질문과 내담자의 응답이 함께 포함된 청크는 상황 정보가 풍부하여 유사 사례 검색에 유리하다.
-  
-  - Token efficiency: 전체 세션 단위 임베딩 대비, 3턴 윈도우는 정보 밀도를 유지하면서도 컨텍스트 길이(토큰) 측면에서 효율적이다.
+  ### Rationale
+    - Context awareness: 상담 데이터는 단일 발화만으로 의미가 부족한 경우가 많아, 앞뒤 문맥 포함이 필요하다.
+    - Retrieval quality: 상담사의 질문과 내담자의 응답이 함께 포함된 청크는 상황 정보가 풍부하여 유사 사례 검색에 유리하다.
+    - Token efficiency: 전체 세션 단위 임베딩 대비, 3턴 윈도우는 정보 밀도를 유지하면서도 컨텍스트 길이(토큰) 측면에서 효율적이다.
 
 <br>
 
-### Data Storage Strategy
-
+## Data Storage Strategy
   - 전처리 및 청킹 결과는 목적에 따라 관계형 저장소와 벡터 저장소로 분리하여 관리한다.
-  
-  - SQLite (mind_care.db): 사용자 정보, 채팅 세션 로그 등 구조화 데이터를 저장한다.
-  
   - ChromaDB (vector_store): 청킹된 텍스트를 임베딩하여 벡터로 저장하며, category, speaker, session_id 등 메타데이터를 함께 저장해 필터 기반 검색을 지원한다.
 
 <br>
@@ -522,9 +437,9 @@ erDiagram
 
 <br>
 
-### 테이블 설명
+## 테이블 설명
 
-#### 1. `users` (사용자)
+### 1. `users` (사용자)
 
 | 컬럼           | 타입         | 설명                  |
 | -------------- | ------------ | --------------------- |
@@ -542,7 +457,7 @@ erDiagram
 
 <br>
 
-#### 2. `chat_sessions` (채팅 세션)
+### 2. `chat_sessions` (채팅 세션)
 
 | 컬럼             | 타입        | 설명                               |
 | ---------------- | ----------- | ---------------------------------- |
@@ -555,7 +470,7 @@ erDiagram
 
 <br>
 
-#### 3. `chat_messages` (채팅 메시지)
+### 3. `chat_messages` (채팅 메시지)
 
 | 컬럼       | 타입        | 설명                             |
 | ---------- | ----------- | -------------------------------- |
@@ -567,7 +482,7 @@ erDiagram
 
 <br>
 
-#### 4. `expert_referrals` (전문가 연결)
+### 4. `expert_referrals` (전문가 연결)
 
 | 컬럼               | 타입        | 설명                                    |
 | ------------------ | ----------- | --------------------------------------- |
@@ -579,7 +494,7 @@ erDiagram
 
 <br>
 
-### 관계도 요약
+## 관계도 요약
 
 ```
 users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
@@ -593,7 +508,7 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-### Database (ChromaDB)
+## Database (ChromaDB)
 
 - RAG을 위해 **ChromaDB(Vector Database)** 를 데이터베이스로 사용한다.
 - ChromaDB는 텍스트 데이터를 임베딩 벡터로 저장하고, 벡터 간 유사도를 기반으로 관련 상담 발화를 검색하는 역할을 수행한다.
@@ -601,7 +516,7 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-### ChromaDB Collection 구조
+## ChromaDB Collection 구조
 
 | 구성 요소 | 설명 |
 |---|---|
@@ -615,7 +530,7 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-### 데이터베이스 활용 방식
+## 데이터베이스 활용 방식
 - 상담 발화 텍스트를 전처리한 후 임베딩하여 ChromaDB에 저장한다.
 - 저장된 벡터는 유사도 검색을 통해 RAG Retriever 단계에서 활용된다.
 - metadata 정보는 검색 결과 필터링 및 상담 맥락 유지를 위해 사용된다.
@@ -626,8 +541,8 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-## 6️⃣ Application의 주요 기능
-### 💬 챗봇 동작 방식 요약
+# 6️⃣ Application의 주요 기능
+## 💬 챗봇 동작 방식 요약
 
 1. 사용자 메시지 입력
 2. 대화 기록 및 세션 정보 DB 저장
@@ -639,11 +554,16 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-### Retriever & RAG Baseline
+## Retriever & RAG Baseline
 
 - **Retriever 구성**
   - ChromaDB 기반 cosine similarity 검색
   - 기본 검색 개수(`top-k`) 설정을 통해 유사 상담 맥락 추출
+  - Similarity vs MMR 비교 실험 요약
+    - 동일한 Query와 top-k 조건에서 실험한 결과, Similarity와 MMR(real) 은 session_id 및 source_id 기준의 다양성 지표에서 차이를 보이지 않았다.
+    - lambda_mult=0.5 설정이 유사도 중심으로 작동하여, MMR이 구조적으로 Similarity와 유사한 검색 결과를 반환하였다.
+    - lambda_mult=0.1과 같이 다양성을 과도하게 강조한 설정에서는 결과 분산이 증가했으나, 이는 개념 검증 목적의 실험으로 실제 상담 응답에는 적합하지 않았다.
+    - 상담심리라는 문맥의 일관성과 해석 용이성을 우선시하여 Similarity Retriever를 최종 선택하였다. 
 
 - **RAG 체인 흐름**
   1. 사용자 입력 수신
@@ -654,13 +574,59 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-### Limitations & Baseline 한계
+## 모델 선정 배경
+<table align="center" width="100%">
+  <tr>
+    <td align="center">
+      <img src="images/GPT-4o.png" width="260" />
+    </td>
+    <td align="center">
+      <img src="images/GPT-4.1.png" width="260" />
+    </td>
+    <td align="center">
+      <img src="images/GPT-5-nano.png" width="260" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>GPT-4o</b></td>
+    <td align="center"><b>GPT-4.1</b></td>
+    <td align="center"><b>GPT-5-nano</b></td>
+  </tr>
+</table>
+
+- OpenAI의 **GPT-4o** 모델을 적용하였다.
+  실시간 상호작용을 전제로 하는 챗봇 특성상, 응답의 정확도와 함께 **응답 지연이 최소화**되는지 여부를 기준으로 모델을 선정하였다.
+
+<br>
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center">
+      <img src="images/gpt-mix_dist.png" width="260" />
+    </td>
+    <td align="center">
+      <img src="images/gpt-mix_time.png" width="260" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>Doc Distance Comparison</b></td>
+    <td align="center"><b>Response Time Comparison</b></td>
+  </tr>
+</table>
+
+- 여러 모델을 비교한 결과, GPT-4o는 상담 맥락 이해와 응답 품질 측면에서 안정적인 성능을 유지하면서도 응답 속도가 가장 우수한 모델로 확인되었다.
+   일부 모델의 경우 응답 생성에 수십 초 이상 소요되는 사례가 발생하여, 실시간 상담 흐름 유지에 적합하지 않다고 판단하였다.
+> 이러한 이유로, 사용자 경험을 저해하지 않으면서도 충분한 상담 응답 품질을 제공할 수 있는 모델로 [OpenAI GPT-4o](https://platform.openai.com/docs/models/gpt-4o)를 최종 선정하였다.
+
+<br>
+
+## Limitations & Baseline 한계
 - 단일 발화 또는 짧은 입력만으로는 사용자의 전체 정서 상태를 정확히 파악하기 어려움
 - 데이터 분포상 고위험(자해/자살) 사례의 비중이 낮아, 위기 상황 대응에는 보수적인 설계가 필요함
 
 <br>
 
-### Safety & Screening Baseline
+## Safety & Screening Baseline
 - json 메타데이터에 포함된 심리 지표(우울/불안/중독 등)를 활용하여 **간단한 정서 상태 스크리닝**을 수행합니다.
 
 - 스크리닝 결과에 따라:
@@ -672,8 +638,8 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 ---
 <br>
 
-## 7️⃣ 회고
-### Final Summary & Key Takeaways
+# 7️⃣ 회고
+## Final Summary & Key Takeaways
 
 - 라벨(json) 데이터를 파싱하여 세션/턴 단위로 정규화하고,이를 기반으로 **구조화된 상담 데이터셋**을 구성
 - 발화 단위 청킹 및 벡터화로 **유사 상담 맥락 검색** 가능
@@ -681,25 +647,25 @@ users (1) ──── (N) chat_sessions (1) ──── (N) chat_messages
 
 <br>
 
-### ⚠️ 구현 도중 문제와 해결
-#### 문제 상황
+## ⚠️ 구현 도중 문제와 해결
+### 문제 상황
 * 임베딩 기반 검색에서 Similarity Retriever와 MMR Retriever 중 어떤 방식이 상담 데이터에 더 적합한지 판단이 필요했다.
-* 특히 동일한 Query와 top-k 조건에서 두 방식이 검색 결과의 다양성과 상담 맥락 유지 측면에서 어떤 차이를 보이는지가 명확하지 않았다.
+* 특히 동일한 Query와 top-k 조건에서 두 방식이 검색 결과의 다양성과 상담 맥락 유지 측면에서 어떤 차이를 보이는지가 명확하지 않아 어려웠다.
 
-#### 시도한 방법
+### 시도한 방법
 * 동일한 Query와 top-k 조건 하에서 Similarity Retriever와 MMR Retriever를 각각 적용하여 검색 결과를 비교하였다.
 * MMR의 경우 lambda_mult 값을 다르게 설정하여(0.5, 0.1) 유사도 중심 vs 다양성 중심 동작을 실험하였고, session_id 및 source_id 기준으로 결과 분산과 중복도를 비교 분석하였다.
 
-#### 분석 및 한계
+### 분석 및 한계
 * lambda_mult=0.5 설정에서는 MMR이 유사도 중심으로 동작하여 결과적으로 Similarity Retriever와 세션 및 소스 다양성 측면에서 유의미한 차이를 보이지 않았다.
 * 반면 lambda_mult=0.1과 같이 다양성을 과도하게 강조한 경우 결과 분산은 증가했으나 상담 맥락이 단절되거나 해석이 어려운 응답이 포함되어 실제 상담 응답 생성에는 부적합하다고 판단하였다.
 
-#### 해결 및 최종 결정
+### 해결 및 최종 결정
 * 상담 심리 데이터의 특성상 문맥의 일관성과 응답 해석 용이성이 중요하다고 판단해 구조적으로 안정적인 결과를 제공하는 **Similarity Retriever**를 최종적으로 선택하였다.
 
 <br>
 
-### 📝 팀원 소감 (Team Retrospective)
+## 📝 팀원 소감 (Team Retrospective)
 
 | 🧑‍💼 이름 | 🛠 역할 | 💬 소감 |
 |-----------|-----------|-----------|
