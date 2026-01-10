@@ -27,8 +27,10 @@
 <table>
 <tr>
 <!-- 박수빈 -->
-<td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/박수빈.png" width="100%" height="100%" style="border-radius: 50%; object-fit: cover;" alt="박수빈"/>
+<td align="center" width="16.6%" style="vertical-align: top;">
+    <div style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+      <img src="images/박수빈.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </div>
     <h3 style="margin: 10px 0 5px 0;">박수빈</h3>
     <p style="margin: 5px 0;"> 
       <strong>대장</strong>  | 임베딩 설계 <br/>
@@ -39,24 +41,29 @@
     </a>
 </td>
 
+
 <!-- 손현우 -->
-<td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/손현우.png" width="100%" height="100%" style="border-radius: 50%; object-fit: cover;" alt="손현우"/>
+<td align="center" width="16.6%" style="vertical-align: top;">
+    <div style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+      <img src="images/손현우.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </div>
     <h3 style="margin: 10px 0 5px 0;">손현우</h3>
     <p style="margin: 5px 0;"> 
       테스트 설계 <br/> 
       RAG 성능평가
     </p>
     <a href="https://github.com/kevinhwsohn-afk">
-        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
+      <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
     
 <!-- 우재현 -->
-<td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/우재현.png" width="100%" height="100%" style="border-radius: 50%; object-fit: cover;" alt="우재현"/>
+<td align="center" width="16.6%" style="vertical-align: top;">
+    <div style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+      <img src="images/우재현.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </div>
     <h3 style="margin: 10px 0 5px 0;">우재현</h3>
-    <p style="margin: 5px 0;">
+    <p style="margin: 5px 0;"> 
       프롬프트 설계 <br/> 
       Answer/Chain 구현
     </p>
@@ -64,46 +71,48 @@
        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
-
 <!-- 이성진 -->
-<td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/이성진.png" width="120%" height="120%"
-         style="border-radius: 50%; object-fit: cover;" alt="이성진"/>
+<td align="center" width="16.6%" style="vertical-align: top;">
+    <div style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+      <img src="images/이성진.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </div>
     <h3 style="margin: 10px 0 5px 0;">이성진</h3>
     <p style="margin: 5px 0;"> 
       데이터 수집 <br/>
       프롬프트 개선
     </p>
     <a href="https://github.com/krsjlee">
-        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
+       <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
 
 <!-- 장이선 -->
-<td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/장이선.png" width="100%" height="100%"
-         style="border-radius: 50%; object-fit: cover;" alt="장이선"/>
+<td align="center" width="16.6%" style="vertical-align: top;">
+    <div style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+      <img src="images/장이선.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </div>
     <h3 style="margin: 10px 0 5px 0;">장이선</h3>
     <p style="margin: 5px 0;"> 
       데이터 전처리·청킹 <br/>
       README 작성 
     </p>
     <a href="https://github.com/jang-yiseon">
-        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
+       <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
 
 <!-- 조남웅 -->
-<td align="center" width="200" style="vertical-align: top; padding: 15px;">
-    <img src="images/조남웅.png" width="100%" height="100%"
-         style="border-radius: 50%; object-fit: cover;" alt="조남웅"/>
+<td align="center" width="16.6%" style="vertical-align: top;">
+    <div style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+      <img src="images/조남웅.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </div>
     <h3 style="margin: 10px 0 5px 0;">조남웅</h3>
     <p style="margin: 5px 0;"> 
       Retriever 구현 <br/>
       Vector DB 검색
     </p>
     <a href="https://github.com/whskadnd">
-        <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
+       <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
     </a>
 </td>
 </tr>
