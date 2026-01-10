@@ -261,7 +261,7 @@ sequenceDiagram
 
 ```plaintext
 SKN21-3rd-3Team/
-├── data/                       
+├── data/                        
 │   └── raw/                       # 원본 심리상담 데이터(json)
 |
 ├── src/                       
@@ -275,11 +275,14 @@ SKN21-3rd-3Team/
 │   |    ├── database_schema.py    # 데이터 구조 정의
 │   |    └── db_manager.py         # DB 접근 및 관리 로직
 |   |
-│   └── rag/                    
-│        ├── rewrite.py             # 대화 히스토리 기반 쿼리 재작성
-│        ├── retriever.py           # 유사 상담 사례 검색
-│        ├── answer.py              # 답변 생성 및 후처리
-│        └── chain.py               # RAG 전체 흐름 제어
+│   ├── rag/                    
+│   |    ├── rewrite.py            # 대화 히스토리 기반 쿼리 재작성
+│   |    ├── retriever.py          # 유사 상담 사례 검색
+│   |    ├── answer.py             # 답변 생성 및 후처리
+│   |    └── chain.py              # RAG 전체 흐름 제어
+|   |
+│   └── utils/                     # 공통 유틸리티 함수
+│        └── pdf_exporter.py       # 대화 기록 기반 PDF 리포트 생성 및 변환
 |
 ├── app/                        
 │    ├── main.py                    # Flask 엔트리포인트
