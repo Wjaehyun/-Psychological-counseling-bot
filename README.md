@@ -1,4 +1,4 @@
-# SKN21-3rd-3Team
+# RAG를 활용한 LLM 심리상담 챗봇
 
 <div align="center" style="margin:0; padding:0;">
   <img 
